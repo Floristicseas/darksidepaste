@@ -1,0 +1,117 @@
+﻿  directx.cpp
+  entity.cpp
+  entry.cpp
+  anim_sync.cpp
+  anti_hit.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\directx\directx.cpp(111,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\entity_system\entity.cpp(104,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\entry.cpp(55,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\features\anim_sync\anim_sync.cpp(87,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\features\anti_hit\anti_hit.cpp(89,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  auto_wall.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\features\auto_wall\auto_wall.cpp(115,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  eng_pred.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\features\eng_pred\eng_pred.cpp(88,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  movement.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\features\movement\movement.cpp(231,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  protobufs.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\features\protobufs\protobufs.cpp(51,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  rage_bot.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\features\rage_bot\rage_bot.cpp(726,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  skins.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\features\skins\skins.cpp(228,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  visuals.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\features\visuals\visuals.cpp(308,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  world.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\features\visuals\world.cpp(167,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  hooks.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\hooks\hooks.cpp(577,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  math.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\math\math.cpp(150,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  menu.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\menu\menu.cpp(241,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  render.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\render\render.cpp(376,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  config_system.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\config_system\config_system.cpp(338,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  imgui.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui.cpp(1787,10): error C2006: '#include': expected "FILENAME" or <FILENAME>
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui.cpp(2532,9): warning C4005: 'va_copy': macro redefinition
+      C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui.cpp(2530,9):
+      see previous definition of 'va_copy'
+  
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui.cpp(14628,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  imgui_demo.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_demo.cpp(136,9): warning C4005: 'IM_NEWLINE': macro redefinition
+      C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_demo.cpp(134,9):
+      see previous definition of 'IM_NEWLINE'
+  
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_demo.cpp(153,9): warning C4005: 'IM_PRId64': macro redefinition
+      C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_demo.cpp(150,9):
+      see previous definition of 'IM_PRId64'
+  
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_demo.cpp(154,9): warning C4005: 'IM_PRIu64': macro redefinition
+      C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_demo.cpp(151,9):
+      see previous definition of 'IM_PRIu64'
+  
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_demo.cpp(170,9): warning C4005: 'IMGUI_CDECL': macro redefinition
+      C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_demo.cpp(168,9):
+      see previous definition of 'IMGUI_CDECL'
+  
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_demo.cpp(8046,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  Generating Code...
+  Compiling...
+  imgui_draw.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_draw.cpp(121,10): error C2006: '#include': expected "FILENAME" or <FILENAME>
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_draw.cpp(145,10): error C2006: '#include': expected "FILENAME" or <FILENAME>
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_draw.cpp(4175,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  imgui_freetype.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_freetype.cpp(43,10): error C2006: '#include': expected "FILENAME" or <FILENAME>
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_freetype.cpp(44,10): error C2006: '#include': expected "FILENAME" or <FILENAME>
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_freetype.cpp(45,10): error C2006: '#include': expected "FILENAME" or <FILENAME>
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_freetype.cpp(46,10): error C2006: '#include': expected "FILENAME" or <FILENAME>
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_freetype.cpp(49,10): error C2006: '#include': expected "FILENAME" or <FILENAME>
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_freetype.cpp(50,10): error C2006: '#include': expected "FILENAME" or <FILENAME>
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_freetype.cpp(397,10): error C2006: '#include': expected "FILENAME" or <FILENAME>
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_freetype.cpp(951,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  imgui_impl_dx11.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_impl_dx11.cpp(597,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  imgui_impl_win32.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_impl_win32.cpp(827,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  imgui_stdlib.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_stdlib.cpp(78,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  imgui_tables.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_tables.cpp(4118,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  imgui_widgets.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\includes\imgui\imgui_widgets.cpp(8985,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  vec3_t.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\typedefs\vec3_t.cpp(179,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  vec_t.hpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\sdk\typedefs\vec_t.hpp(592,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  utils.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\utils\utils.cpp(180,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  cs_usercmd.pb.cc
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\valve\interfaces\vtables\cs_usercmd.pb.cc(1937,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  i_convar.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\valve\interfaces\vtables\i_convar.cpp(55,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  i_trace.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\valve\interfaces\vtables\i_trace.cpp(49,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  netmessages.pb.cc
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\valve\interfaces\vtables\netmessages.pb.cc(31542,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  networkbasetypes.pb.cc
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\valve\interfaces\vtables\networkbasetypes.pb.cc(10207,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  network_connection.pb.cc
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\valve\interfaces\vtables\network_connection.pb.cc(455,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  usercmd.pb.cc
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\valve\interfaces\vtables\usercmd.pb.cc(1889,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  usermessages.pb.cc
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\valve\interfaces\vtables\usermessages.pb.cc(37481,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  schema.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\valve\schema\schema.cpp(66,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  interfaces.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\valve\interfaces\interfaces.cpp(50,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  Generating Code...
+  Compiling...
+  modules.cpp
+C:\Users\Ostap\Downloads\dark\darkside-sdk-fix-main\darkside_sdk\valve\modules\modules.cpp(20,1): error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  Generating Code...
