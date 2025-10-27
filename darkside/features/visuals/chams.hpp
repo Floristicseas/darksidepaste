@@ -288,6 +288,7 @@ namespace chams
             void* scene_view, void* scene_layer, void* unk1, void* unk2);
         bool override_material(void* animatable_object, void* dx11, material_data_t* arr_material_data, int data_count,
             void* scene_view, void* scene_layer, void* unk1, void* unk2);
+
         material2_t* CreateMaterial(const char* szMaterialName, const char szVmatBuffer[]);
 
     private:

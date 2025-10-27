@@ -5,7 +5,6 @@
 #include "chams.hpp"
 #define IM_PI                           3.14159265358979323846f
 
-
 namespace visuals
 {
 	bool Setup()
@@ -121,6 +120,7 @@ const char* c_visuals::weapon_to_font_letter(const char* weapon_name) {
 
 	return "";
 }
+
 
 bool c_visuals::get_bone_position(c_cs_player_pawn* player_pawn, int bone, vec3_t& out)
 {
@@ -477,6 +477,7 @@ void c_visuals::handle_players() {
 			if (g_cfg->visuals.m_player_esp.m_bounding_box) {
 				const c_color main_color = g_cfg->visuals.m_player_esp.m_bounding_box_col;
 
+
 				g_render->rect_outline({ bbox.x - 1, bbox.y - 1 }, { bbox.x + bbox.width + 1, bbox.y + bbox.height + 1 }, outline_color);
 				g_render->rect_outline({ bbox.x, bbox.y }, { bbox.x + bbox.width, bbox.y + bbox.height }, main_color);
 				g_render->rect_outline({ bbox.x + 1, bbox.y + 1 }, { bbox.x + bbox.width - 1, bbox.y + bbox.height - 1 }, outline_color);
@@ -533,13 +534,16 @@ void c_visuals::handle_players() {
 					vec3_t bb_max{ width, 2.f };
 
 					g_render->rect(bb_outline_min, bb_outline_min + bb_outline_max, outline_color);
+
 					g_render->rect(bb_min, bb_min + bb_max, main_color);
+
 
 					weapon_info_offset += 5.f;
 				}
 
 				g_render->text(vec3_t(bbox.x + bbox.width / 2.f, bbox.y + bbox.height + weapon_info_offset + 3.f), main_color, font_flags_center | font_flags_outline,
 					g_render->fonts.onetap_pixel, player_info.m_weapon_name, g_render->fonts.onetap_pixel->FontSize);
+
 
 				weapon_info_offset += 12.f;
 			}
@@ -548,6 +552,7 @@ void c_visuals::handle_players() {
 				const auto icon_color = g_cfg->visuals.m_player_esp.m_weapon_icon_col;
 
 				ImGui::PushFont(g_render->fonts.GunIcons);
+
 				auto icon_size = ImGui::CalcTextSize(player_info.m_weapon_icon.c_str());
 
 				g_render->text(vec3_t(bbox.x + bbox.width / 2.f, bbox.y + bbox.height + weapon_info_offset + 3.f),

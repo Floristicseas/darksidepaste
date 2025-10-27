@@ -57,7 +57,6 @@ inline type_t* get_interface( c_dll* dll, const char* name )
 
 class i_material_system;
 class CUtlBuffer;
-
 class c_interfaces
 {
 public:

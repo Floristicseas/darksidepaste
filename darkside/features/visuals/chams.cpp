@@ -9,6 +9,8 @@
 
 #include "../../valve/interfaces/vtables/shit.hpp"
 
+
+
 struct custom_material_data_t {
     material2_t* m_material;
     material2_t* m_material_z;
@@ -110,6 +112,7 @@ bool chams::chams_t::draw_object(void* animatable_object, void* dx11, material_d
             return this->override_material(animatable_object, dx11, arr_material_data, data_count, scene_view, scene_layer, unk1, unk2);
     }
 
+
     if (g_cfg->visuals.chams.m_weapon.m_enabled && m_entity->is_view_model())
     {
         auto pOwnerEntity = g_interfaces->m_entity_system->get_base_entity(m_entity->get_handle().get_entry_index());
@@ -119,6 +122,7 @@ bool chams::chams_t::draw_object(void* animatable_object, void* dx11, material_d
 
     return false;
 }
+
 
 material2_t* chams::chams_t::CreateMaterial(const char* szMaterialName, const char szVmatBuffer[])
 {
@@ -130,7 +134,7 @@ material2_t* chams::chams_t::CreateMaterial(const char* szMaterialName, const ch
 
     material2_t** pCustomMaterial = nullptr;
 
-        g_interfaces->fnCreateMaterial(nullptr, &pCustomMaterial, szMaterialName, pKeyValues3, 0, 1);
+    g_interfaces->fnCreateMaterial(nullptr, &pCustomMaterial, szMaterialName, pKeyValues3, 0, 1);
 
     return pCustomMaterial ? *pCustomMaterial : nullptr;
 }
@@ -201,7 +205,9 @@ bool chams::chams_t::override_material(void* animatable_object, void* dx11, mate
         {
             arr_material_data->m_material() = customMaterialWeap.m_material;
             arr_material_data->m_color() = g_cfg->visuals.chams.m_weapon.m_color;
+
             g_interfaces->m_mat_sys->set_color(arr_material_data, g_cfg->visuals.chams.m_weapon.m_color);
+
         }
     }
     else if (g_cfg->visuals.chams.m_weapon.m_enabled && pEntity->is_view_model())
@@ -212,6 +218,7 @@ bool chams::chams_t::override_material(void* animatable_object, void* dx11, mate
             arr_material_data->m_material() = customMaterialWeap.m_material;
             arr_material_data->m_color() = g_cfg->visuals.chams.m_weapon.m_color;
             g_interfaces->m_mat_sys->set_color(arr_material_data, g_cfg->visuals.chams.m_weapon.m_color);
+
         }
     }
 

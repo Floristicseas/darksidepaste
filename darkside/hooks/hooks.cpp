@@ -644,5 +644,4 @@ void* hooks::object::hk_draw_object(void* pAnimatableSceneObjectDesc, void* pDx1
 float hooks::aspect::hk_aspect_ratio(__int64 a1, int a2, int a3) {
 	static auto original = ratio.get_original< decltype(&hk_aspect_ratio) >();
 		return original(a1, a2, a3);
-
 }

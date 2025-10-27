@@ -70,7 +70,6 @@ public:
 
 class i_material_system {
 public:
-
     material2_t*** find_or_create_from_resource(material2_t*** out_material, const char* material_name) {
         return vmt::call_virtual<material2_t***>(this, 14, out_material, material_name);
     }
