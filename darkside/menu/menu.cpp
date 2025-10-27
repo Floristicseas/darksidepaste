@@ -103,20 +103,7 @@ void c_menu::draw() {
                 ImGui::SliderInt("X ", &g_cfg->world_esp.flX, -90, 90);
                 ImGui::SliderInt("Y ", &g_cfg->world_esp.flY, -90, 90);
                 ImGui::SliderInt("Z ", &g_cfg->world_esp.flZ, -90, 90);
-                ImGui::SliderInt("FOV ", &g_cfg->world_esp.flfov, 40, 120);
-
-               //  ImGui::Separator();
-               //  ImGui::Text("Rotation");
-
-               //  ImGui::SliderInt("X ##r", &g_cfg->world_esp.flXrotation, -90, 90);
-               //  ImGui::SliderInt("Y ##r", &g_cfg->world_esp.flYrotation, -90, 90);
-               //  ImGui::SliderInt("Z ##r", &g_cfg->world_esp.flZrotation, -90, 90);           
-                // ImGui::Separator();
-                // ImGui::Text("Rotation");
-
-                // ImGui::SliderInt("X ##r", &g_cfg->world_esp.flXrotation, -90, 90);
-                // ImGui::SliderInt("Y ##r", &g_cfg->world_esp.flYrotation, -90, 90);
-                // ImGui::SliderInt("Z ##r", &g_cfg->world_esp.flZrotation, -90, 90);           
+                ImGui::SliderInt("FOV ", &g_cfg->world_esp.flfov, 40, 120);          
             }
         }
         ImGui::EndChild();
@@ -130,12 +117,10 @@ void c_menu::draw() {
             ImGui::SameLine();
             ImGui::ColorEdit4("##box color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_bounding_box_col), ImGuiColorEditFlags_NoInputs);
 
-            // Add skeleton option
             ImGui::Checkbox("Skeleton", &g_cfg->visuals.m_player_esp.m_skeleton);
             ImGui::SameLine();
             ImGui::ColorEdit4("##skeleton color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_skeleton_color), ImGuiColorEditFlags_NoInputs);
 
-            // Add off-screen arrow option
             ImGui::Checkbox("Off-screen arrows", &g_cfg->visuals.m_player_esp.m_off_arrow);
             ImGui::SameLine();
             ImGui::ColorEdit4("##arrow color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_off_arrow_color), ImGuiColorEditFlags_NoInputs);
@@ -156,7 +141,6 @@ void c_menu::draw() {
             ImGui::Checkbox("name", &g_cfg->visuals.m_player_esp.m_name);
             ImGui::Checkbox("weapon", &g_cfg->visuals.m_player_esp.m_weapon);
             ImGui::Checkbox("weapon icons", &g_cfg->visuals.m_player_esp.m_weapon_icons);
-            //ImGui::SliderInt(xorstr_("D3bug icon"), &g_cfg->visuals.debug_icon, 0, 179);
 
             ImGui::ColorEdit4("name color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_name_color), ImGuiColorEditFlags_NoInputs);
 
@@ -253,10 +237,7 @@ void c_menu::draw() {
                 ImGui::SliderInt("##auto_strafer_smooth", &g_cfg->misc.m_strafe_smooth, 1, 99);
 
                 ImGui::Combo("auto strafe type", &g_cfg->misc.m_auto_strafe_type, strafe_types, IM_ARRAYSIZE(strafe_types));
-
-                if (g_cfg->misc.m_auto_strafe_type == 0) { // Directional
-                    // ImGui::Combo("Directional type", &g_cfg->misc.m_directional_type, directional_types, IM_ARRAYSIZE(directional_types));
-                }
+   
                 ImGui::Checkbox("Silent strafe", &g_cfg->misc.m_silent_strafe);
 
             }
@@ -266,10 +247,7 @@ void c_menu::draw() {
 
             if (g_cfg->misc.m_auto_peek) {
                 ImGui::Keybind(xorstr_("Auto Peek Keybind"), &g_cfg->misc.m_override_quick_peek_assistant, &g_cfg->misc.m_override_quick_peek_assistant_style);
-                // ImGui::Checkbox("return on key release", &g_cfg->misc.m_auto_peek_return);
-            }
-
-            ImGui::Checkbox("return on key release", &g_cfg->misc.m_auto_peek_return);
+            }          
         }
         ImGui::EndChild();
     }
