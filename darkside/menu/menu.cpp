@@ -204,40 +204,6 @@ void c_menu::draw() {
             ImGui::SameLine();
             ImGui::ColorEdit4("##Weapon Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_weapon.m_color), ImGuiColorEditFlags_NoInputs);
             ImGui::Combo("Weapon Material", &g_cfg->visuals.chams.m_weapon.m_type, material_types, IM_ARRAYSIZE(material_types));          
-           /*static constexpr const char* material_types[]{"Solid", "Flat", "Glow", "Latex", "Star", "Electric"};
-
-            // Enemy Chams
-            ImGui::Text("Enemy Chams");
-            ImGui::Checkbox("Visible", &g_cfg->visuals.chams.m_enemy.m_visible);
-            ImGui::Checkbox("Occluded", &g_cfg->visuals.chams.m_enemy.m_occluded);
-            ImGui::Combo("Enemy Material", &g_cfg->visuals.chams.m_enemy.m_type, material_types, IM_ARRAYSIZE(material_types));
-
-            if (g_cfg->visuals.chams.m_enemy.m_visible)
-                ImGui::ColorEdit4("Enemy Visible Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_enemy.m_visible_color), ImGuiColorEditFlags_NoInputs);
-
-            if (g_cfg->visuals.chams.m_enemy.m_occluded)
-                ImGui::ColorEdit4("Enemy Occluded Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_enemy.m_occluded_color), ImGuiColorEditFlags_NoInputs);
-
-            ImGui::Separator();
-
-            // Local Chams
-            ImGui::Text("Local Chams");
-            ImGui::Checkbox("Local Enabled", &g_cfg->visuals.chams.m_local.m_enabled);
-            ImGui::Checkbox("Local Occluded", &g_cfg->visuals.chams.m_local.m_occluded);
-            ImGui::Combo("Local Material", &g_cfg->visuals.chams.m_local.m_type, material_types, IM_ARRAYSIZE(material_types));
-
-            ImGui::ColorEdit4("Local Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_local.m_color), ImGuiColorEditFlags_NoInputs);
-
-            if (g_cfg->visuals.chams.m_local.m_occluded)
-                ImGui::ColorEdit4("Local Occluded Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_local.m_occluded_color), ImGuiColorEditFlags_NoInputs);
-
-            ImGui::Separator();
-
-            // Weapon Chams
-            ImGui::Text("Weapon Chams");
-            ImGui::Checkbox("Weapon Enabled", &g_cfg->visuals.chams.m_weapon.m_enabled);
-            ImGui::Combo("Weapon Material", &g_cfg->visuals.chams.m_weapon.m_type, material_types, IM_ARRAYSIZE(material_types));
-            ImGui::ColorEdit4("Weapon Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_weapon.m_color), ImGuiColorEditFlags_NoInputs);*/
         } 
         ImGui::EndChild();
     }
@@ -266,7 +232,7 @@ void c_menu::draw() {
             ImGui::Checkbox("Hit Logs", &g_cfg->misc.m_hit_logs);
 
             ImGui::Checkbox(xorstr_("Hit Sound"), &g_cfg->misc.m_hitsound);
-            
+
             if (g_cfg->misc.m_hitsound)
                 ImGui::Combo(xorstr_("##hit_sound_mode"), &g_cfg->misc.m_hit_sound_mode, sounds, IM_ARRAYSIZE(sounds), sizeof(sounds));
 
@@ -289,7 +255,7 @@ void c_menu::draw() {
                 ImGui::Combo("auto strafe type", &g_cfg->misc.m_auto_strafe_type, strafe_types, IM_ARRAYSIZE(strafe_types));
 
                 if (g_cfg->misc.m_auto_strafe_type == 0) { // Directional
-                   // ImGui::Combo("Directional type", &g_cfg->misc.m_directional_type, directional_types, IM_ARRAYSIZE(directional_types));
+                    // ImGui::Combo("Directional type", &g_cfg->misc.m_directional_type, directional_types, IM_ARRAYSIZE(directional_types));
                 }
                 ImGui::Checkbox("Silent strafe", &g_cfg->misc.m_silent_strafe);
 
@@ -300,16 +266,13 @@ void c_menu::draw() {
 
             if (g_cfg->misc.m_auto_peek) {
                 ImGui::Keybind(xorstr_("Auto Peek Keybind"), &g_cfg->misc.m_override_quick_peek_assistant, &g_cfg->misc.m_override_quick_peek_assistant_style);
-               // ImGui::Checkbox("return on key release", &g_cfg->misc.m_auto_peek_return);
+                // ImGui::Checkbox("return on key release", &g_cfg->misc.m_auto_peek_return);
             }
 
-                ImGui::Checkbox("return on key release", &g_cfg->misc.m_auto_peek_return);
-            }
-
-
-
+            ImGui::Checkbox("return on key release", &g_cfg->misc.m_auto_peek_return);
         }
-        ImGui::EndChild();   
+        ImGui::EndChild();
+    }
 
         if (m_selected_tab == 6) {
             ImGui::BeginChild("Models", ImVec2{ 0, 0 }, true);
@@ -375,6 +338,7 @@ void c_menu::draw() {
                     }
                 }
             }
+            ImGui::EndChild();
         }
 
     if (m_selected_tab == 7) {
