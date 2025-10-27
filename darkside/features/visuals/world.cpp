@@ -159,26 +159,3 @@ void c_world::draw_scope_overlay()
         );
     }
 }
-
-void c_world::draw_hit_logs()
-{
-    const float l_time = 3.0f;
-    float c_time = ImGui::GetTime();
-
-    all_hit_logs.erase(std::remove_if(all_hit_logs.begin(), all_hit_logs.end(), [c_time, l_time](const logs_struct& log) {
-        return (c_time - log.time) > l_time;
-        }), all_hit_logs.end());
-
-    vec3_t text_pos = vec3_t( /*65*/15, 15);
-
-    for (const auto& log : all_hit_logs)
-    {
-        float left = l_time - (c_time - log.time);
-        float alpha = std::clamp(left, 0.1f, 1.0f);
-
-        g_render->text(text_pos, c_color{ 255.f, 255.f, 255.f, alpha * 255.f }, font_flags_outline,
-            g_render->fonts.verdana, log.msg.c_str(), g_render->fonts.verdana->FontSize);
-
-        text_pos.y += 19;
-    }
-}

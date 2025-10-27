@@ -63,8 +63,8 @@ void c_interfaces::initialize( ) {
 	fnCreateMaterial = *reinterpret_cast<decltype( fnCreateMaterial )>(g_opcodes->scan_absolute(material_sys_dll, xorstr_("48 89 5C 24 ? 48 89 6C 24 ? 56 57 41 56 48 81 EC ? ? ? ? 48 8B"), 0x4));
 	CHECK(xorstr_("fn create material"), fnCreateMaterial);
 
-	m_game_event_manager = *reinterpret_cast<i_game_event_manager**>(g_opcodes->resolve_relative_address(vmt::get_v_method<std::uint8_t*>(m_client, 14U) + 0x3E, 0x3, 0x7));
-	CHECK(xorstr_("Event"), m_game_event_manager);
+	m_game_event_manager = *reinterpret_cast<i_game_event_manager**>(g_opcodes->scan_absolute(client_dll, xorstr_("48 8B 0D ? ? ? ? E8 ? ? ? ? 48 8B 0D ? ? ? ? 48 85 C9 74 2D 48 8B"), 0x3)); //find new sig
+	CHECK(xorstr_("Event manager"), m_game_event_manager);
 	
 	LOG_INFO( xorstr_( "[+] Interfaces initialization completed!" ) );
 }

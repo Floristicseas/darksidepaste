@@ -153,7 +153,6 @@
     <ClCompile Include="valve\interfaces\vtables\usermessages.pb.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="features\visuals\chams.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -163,14 +162,9 @@
     <ClCompile Include="features\event\event.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-=======
-    <ClCompile Include="features\event\shothandler.cpp">
+    <ClCompile Include="features\event\logs\logs.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="features\visuals\chams.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
->>>>>>> 0b8c2106760925e92fd6b635e300c90333378579
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="darkside.hpp">
@@ -725,19 +719,12 @@
     <ClInclude Include="sdk\typedefs\qangle.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-<<<<<<< HEAD
-=======
-    <ClInclude Include="features\event\shothandler.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
->>>>>>> 0b8c2106760925e92fd6b635e300c90333378579
     <ClInclude Include="valve\interfaces\vtables\i_material_system.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="features\visuals\chams.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="valve\interfaces\vtables\utl.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -753,8 +740,9 @@
     <ClInclude Include="sdk\includes\tinyformat.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-=======
->>>>>>> 0b8c2106760925e92fd6b635e300c90333378579
+    <ClInclude Include="features\event\logs\logs.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="valve\classes\game_enums.hpp" />

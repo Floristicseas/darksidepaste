@@ -1,15 +1,56 @@
 #include "menu.hpp"
-
 #include "../darkside.hpp"
-
 #include "../features/skins/skins.hpp"
+#include "../features/event/logs/logs.hpp"
 
-void c_menu::draw() {
+void c_menu::style_setup() {
+    auto& style = ImGui::GetStyle();
+    style.WindowRounding = 12.0f;
+    style.ChildRounding = 8.0f;
+    style.FrameRounding = 4.0f;
+    style.GrabRounding = 4.0f;
+    style.PopupRounding = 8.0f;
+
+    style.Colors[ImGuiCol_WindowBg] = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
+    style.Colors[ImGuiCol_Border] = ImVec4(1.0f, 1.0f, 1.0f, 0.1f);
+}
+
+void c_menu::draw_bg() {
     if (!m_opened)
         return;
 
+    ImVec2 window_pos = ImGui::GetWindowPos();
+    ImVec2 window_size = ImGui::GetWindowSize();
+
+    ImGui::GetWindowDrawList()->AddRectFilled(
+        window_pos,
+        ImVec2(window_pos.x + window_size.x, window_pos.y + window_size.y),
+        IM_COL32(10, 10, 15, 180)
+    );
+
+    ImGui::GetWindowDrawList()->AddRect(
+        window_pos,
+        ImVec2(window_pos.x + window_size.x, window_pos.y + window_size.y),
+        IM_COL32(255, 255, 255, 30),
+        12.0f, 0, 2.0f
+    );
+
+}
+
+void c_menu::draw() {
+
+    g_event_logs->render();
+
+    if (!m_opened)
+        return;
+
+    style_setup();
+
     ImGui::SetNextWindowSize(ImVec2(512.0f, 515.0f), ImGuiCond_Once);
-    ImGui::Begin("cs2", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+
+    ImGui::Begin("cs2", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBackground);
+
+    draw_bg();
 
     ImGui::BeginChild("tabs", ImVec2{ 150, 0 }, true);
     {
@@ -103,7 +144,7 @@ void c_menu::draw() {
                 ImGui::SliderInt("X ", &g_cfg->world_esp.flX, -90, 90);
                 ImGui::SliderInt("Y ", &g_cfg->world_esp.flY, -90, 90);
                 ImGui::SliderInt("Z ", &g_cfg->world_esp.flZ, -90, 90);
-                ImGui::SliderInt("FOV ", &g_cfg->world_esp.flfov, 40, 120);          
+                ImGui::SliderInt("FOV ", &g_cfg->world_esp.flfov, 40, 120);
             }
         }
         ImGui::EndChild();
@@ -135,23 +176,12 @@ void c_menu::draw() {
             ImGui::Checkbox("Weapon icon", &g_cfg->visuals.m_player_esp.m_weapon_icons);
             ImGui::SameLine();
             ImGui::ColorEdit4("##weapon icon color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_weapon_icon_col), ImGuiColorEditFlags_NoInputs);
-            ImGui::Checkbox("teammates", &g_cfg->visuals.m_player_esp.m_teammates);
-            ImGui::Checkbox("bounding box", &g_cfg->visuals.m_player_esp.m_bounding_box);
-            ImGui::Checkbox("health bar", &g_cfg->visuals.m_player_esp.m_health_bar);
-            ImGui::Checkbox("name", &g_cfg->visuals.m_player_esp.m_name);
-            ImGui::Checkbox("weapon", &g_cfg->visuals.m_player_esp.m_weapon);
-            ImGui::Checkbox("weapon icons", &g_cfg->visuals.m_player_esp.m_weapon_icons);
-
-            ImGui::ColorEdit4("name color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_name_color), ImGuiColorEditFlags_NoInputs);
 
             ImGui::Separator();
 
             ImGui::Checkbox("Local Glow", &g_cfg->visuals.glow.m_bGlow_local);
             ImGui::SameLine();
             ImGui::ColorEdit4("##glow local col0r", reinterpret_cast<float*>(&g_cfg->visuals.glow.glow_color_local), ImGuiColorEditFlags_NoInputs);
-
-            ImGui::ColorEdit4("local glow color", reinterpret_cast<float*>(&g_cfg->visuals.glow.glow_color_local), ImGuiColorEditFlags_NoInputs);
-
         }
         ImGui::EndChild();
     }
@@ -159,7 +189,7 @@ void c_menu::draw() {
     if (m_selected_tab == 4) {
         ImGui::BeginChild("chams", ImVec2{ 0, 0 }, true);
         {
-           static constexpr const char* material_types[]{"Solid", "Flat", "Glow", "Latex", "Star", "Electric"};
+            static constexpr const char* material_types[]{ "Solid", "Flat", "Glow", "Latex", "Star", "Electric" };
 
             ImGui::Text("Enemy Chams");
             ImGui::Checkbox("Visible", &g_cfg->visuals.chams.m_enemy.m_visible);
@@ -169,7 +199,7 @@ void c_menu::draw() {
             ImGui::SameLine();
             ImGui::ColorEdit4("##Enemy Occluded Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_enemy.m_occluded_color), ImGuiColorEditFlags_NoInputs);
             ImGui::Combo("Enemy Material", &g_cfg->visuals.chams.m_enemy.m_type, material_types, IM_ARRAYSIZE(material_types));
-         
+
             ImGui::Separator();
 
             ImGui::Text("Local Chams");
@@ -179,7 +209,7 @@ void c_menu::draw() {
             ImGui::Checkbox("Local Occluded", &g_cfg->visuals.chams.m_local.m_occluded);
             ImGui::SameLine();
             ImGui::ColorEdit4("##Local Occluded Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_local.m_occluded_color), ImGuiColorEditFlags_NoInputs);
-            ImGui::Combo("Local Material", &g_cfg->visuals.chams.m_local.m_type, material_types, IM_ARRAYSIZE(material_types));           
+            ImGui::Combo("Local Material", &g_cfg->visuals.chams.m_local.m_type, material_types, IM_ARRAYSIZE(material_types));
 
             ImGui::Separator();
 
@@ -187,17 +217,16 @@ void c_menu::draw() {
             ImGui::Checkbox("Weapon Enabled", &g_cfg->visuals.chams.m_weapon.m_enabled);
             ImGui::SameLine();
             ImGui::ColorEdit4("##Weapon Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_weapon.m_color), ImGuiColorEditFlags_NoInputs);
-            ImGui::Combo("Weapon Material", &g_cfg->visuals.chams.m_weapon.m_type, material_types, IM_ARRAYSIZE(material_types));          
-        } 
+            ImGui::Combo("Weapon Material", &g_cfg->visuals.chams.m_weapon.m_type, material_types, IM_ARRAYSIZE(material_types));
+        }
         ImGui::EndChild();
     }
 
     if (m_selected_tab == 5) {
         ImGui::BeginChild("misc", ImVec2{ 165, 0 }, true);
         {
-            const char* removal_items[] = { "Remove scope", "Remove legs", "Remove crosshair", "Remove flash", "Remove smoke", "Remove team intro", "Remove local overhead", "Remove aim punch" };
+            const char* removal_items[] = { "Remove scope", "Remove legs", "Remove crosshair", "Remove flash", "Remove smoke", "Remove team intro", "Remove overhead", "Remove aim punch" };
             static const char* sounds[] = { ("flick"), ("bell"), ("mettalic"), ("bubble") };
-
 
             ImGui::SliderInt(xorstr_("Field of View"), &g_cfg->misc.m_field_of_view, 1, 179);
             ImGui::MultiCombo("Removals", g_cfg->misc.m_removals, removal_items, IM_ARRAYSIZE(removal_items));
@@ -237,87 +266,85 @@ void c_menu::draw() {
                 ImGui::SliderInt("##auto_strafer_smooth", &g_cfg->misc.m_strafe_smooth, 1, 99);
 
                 ImGui::Combo("auto strafe type", &g_cfg->misc.m_auto_strafe_type, strafe_types, IM_ARRAYSIZE(strafe_types));
-   
+
                 ImGui::Checkbox("Silent strafe", &g_cfg->misc.m_silent_strafe);
-
             }
-
 
             ImGui::Checkbox("auto peek", &g_cfg->misc.m_auto_peek);
 
             if (g_cfg->misc.m_auto_peek) {
                 ImGui::Keybind(xorstr_("Auto Peek Keybind"), &g_cfg->misc.m_override_quick_peek_assistant, &g_cfg->misc.m_override_quick_peek_assistant_style);
-            }          
+            }
         }
         ImGui::EndChild();
     }
 
-        if (m_selected_tab == 6) {
-            ImGui::BeginChild("Models", ImVec2{ 0, 0 }, true);
+    if (m_selected_tab == 6) {
+        ImGui::BeginChild("Models", ImVec2{ 0, 0 }, true);
+        {
+            ImGui::Checkbox(xorstr_("Custom models"), &g_cfg->skins.m_custom_models);
+
+            static std::string base_path = []() {
+                const char* steam_path = std::getenv(xorstr_("SteamPath"));
+                return steam_path ? std::string(steam_path) + xorstr_("/steamapps/common/Counter-Strike Global Offensive/game/csgo/characters/models") : xorstr_("");
+                }();
+
+            static auto m_data = g_skins->custom_models(base_path);
+            static int m_selected_model = 0;
+
+            std::vector< std::string > m_all_models = { xorstr_("none") };
+
+            for (const auto& [author, packs] : m_data)
             {
-                ImGui::Checkbox(xorstr_("Custom models"), &g_cfg->skins.m_custom_models);
-
-                static std::string base_path = []() {
-                    const char* steam_path = std::getenv(xorstr_("SteamPath"));
-                    return steam_path ? std::string(steam_path) + xorstr_("/steamapps/common/Counter-Strike Global Offensive/game/csgo/characters/models") : xorstr_("");
-                    }();
-
-                static auto m_data = g_skins->custom_models(base_path);
-                static int m_selected_model = 0;
-
-                std::vector< std::string > m_all_models = { xorstr_("none") };
-
-                for (const auto& [author, packs] : m_data)
+                for (const auto& [pack, models] : packs)
                 {
-                    for (const auto& [pack, models] : packs)
+                    for (const auto& model : models)
                     {
-                        for (const auto& model : models)
-                        {
-                            int slash = model.find_last_of(xorstr_("/\\"));
-                            int dot = model.find_last_of('.');
+                        int slash = model.find_last_of(xorstr_("/\\"));
+                        int dot = model.find_last_of('.');
 
-                            m_all_models.push_back((slash != std::string::npos && dot != std::string::npos) ? model.substr(slash + 1, dot - slash - 1) : model);
-                        }
-                    }
-                }
-
-                if (g_cfg->skins.m_custom_models)
-                {
-                    if (ImGui::Combo(xorstr_("##select_model"), &m_selected_model, [](void* data, int idx, const char** out_text)
-                        {
-                            auto& models = *static_cast<std::vector< std::string>*>(data);
-                            *out_text = models[idx].c_str();
-
-                            return true;
-                        }, &m_all_models, m_all_models.size()))
-                    {
-                        g_skins->m_model_path = (m_selected_model == 0) ? xorstr_("") : [&]()
-                            {
-                                std::string mod_name = m_all_models[m_selected_model];
-
-                                for (const auto& [author, packs] : m_data)
-                                {
-                                    for (const auto& [pack, models] : packs)
-                                    {
-                                        for (const auto& model : models)
-                                        {
-                                            int slash = model.find_last_of(xorstr_("/\\"));
-                                            int dot = model.find_last_of('.');
-
-                                            std::string model_name = (slash != std::string::npos && dot != std::string::npos) ? model.substr(slash + 1, dot - slash - 1) : model;
-
-                                            if (model_name == mod_name)
-                                                return base_path + xorstr_("/") + author + xorstr_("/") + pack + xorstr_("/") + model;
-                                        }
-                                    }
-                                }
-                                return std::string();
-                            }();
+                        m_all_models.push_back((slash != std::string::npos && dot != std::string::npos) ? model.substr(slash + 1, dot - slash - 1) : model);
                     }
                 }
             }
-            ImGui::EndChild();
+
+            if (g_cfg->skins.m_custom_models)
+            {
+                if (ImGui::Combo(xorstr_("##select_model"), &m_selected_model, [](void* data, int idx, const char** out_text)
+                    {
+                        auto& models = *static_cast<std::vector< std::string>*>(data);
+                        *out_text = models[idx].c_str();
+
+                        return true;
+                    }, &m_all_models, m_all_models.size()))
+                {
+                    g_skins->m_model_path = (m_selected_model == 0) ? xorstr_("") : [&]()
+                        {
+                            std::string mod_name = m_all_models[m_selected_model];
+
+                            for (const auto& [author, packs] : m_data)
+                            {
+                                for (const auto& [pack, models] : packs)
+                                {
+                                    for (const auto& model : models)
+                                    {
+                                        int slash = model.find_last_of(xorstr_("/\\"));
+                                        int dot = model.find_last_of('.');
+
+                                        std::string model_name = (slash != std::string::npos && dot != std::string::npos) ? model.substr(slash + 1, dot - slash - 1) : model;
+
+                                        if (model_name == mod_name)
+                                            return base_path + xorstr_("/") + author + xorstr_("/") + pack + xorstr_("/") + model;
+                                    }
+                                }
+                            }
+                            return std::string();
+                        }();
+                }
+            }
         }
+        ImGui::EndChild();
+    }
 
     if (m_selected_tab == 7) {
         g_config_system->menu();

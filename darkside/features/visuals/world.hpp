@@ -22,7 +22,6 @@ public:
 	void exposure( c_cs_player_pawn* );
 	void exposure( c_post_processing_volume* );
 	void draw_scope_overlay( );
-	void draw_hit_logs();
 
 	std::vector< logs_struct > all_hit_logs;
 };

@@ -24,12 +24,17 @@ uintptr_t __stdcall start_address( const HMODULE h_module ) {
     g_config_system->setup_values( );
     g_entity_system->initialize( );
 
+    if (g_events->initialize())
+        return true;
+
     LOG_SUCCESS( xorstr_( "[*] DarkSide successfully injected!\n" ) );
 
     while ( !GetAsyncKeyState( VK_END ) )
     {
         Sleep( 100 );
     }
+
+    g_interfaces->m_game_event_manager->remove(g_events);
 
     destroy( h_module );
 

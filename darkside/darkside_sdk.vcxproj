@@ -168,6 +168,7 @@
     <ClCompile Include="features\auto_wall\auto_wall.cpp" />
     <ClCompile Include="features\eng_pred\eng_pred.cpp" />
     <ClCompile Include="features\event\event.cpp" />
+    <ClCompile Include="features\event\logs\logs.cpp" />
     <ClCompile Include="features\movement\movement.cpp" />
     <ClCompile Include="features\protobufs\protobufs.cpp" />
     <ClCompile Include="features\rage_bot\rage_bot.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="features\auto_wall\auto_wall.hpp" />
     <ClInclude Include="features\eng_pred\eng_pred.hpp" />
     <ClInclude Include="features\event\event.hpp" />
+    <ClInclude Include="features\event\logs\logs.hpp" />
     <ClInclude Include="features\event\sounds.hpp" />
     <ClInclude Include="features\movement\movement.hpp" />
     <ClInclude Include="features\protobufs\protobufs.hpp" />

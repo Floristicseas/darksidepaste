@@ -7,6 +7,8 @@
 #include "../../darkside.hpp"
 #include "../../features/visuals/world.hpp"
 
+#include "logs/logs.hpp"
+
 const char* m_groups[] = {
    xorstr_("body"),
    xorstr_("head"),
@@ -177,6 +179,9 @@ void c_events::on_player_hurt(c_game_event* event)
 	auto health = event->get_int2(xorstr_("health"), false);
 	auto name = reinterpret_cast<c_cs_player_controller*>(pPlayer)->m_player_name();
 
+	std::string msg = std::format("hit {} in the {} for {} damage ({} remaining)",
+		name, m_groups[hitbox], dmg, health);
+
 	if (attacker == localController)
 	{
 		if (g_cfg->misc.m_hitsound)
@@ -192,9 +197,8 @@ void c_events::on_player_hurt(c_game_event* event)
 		}
 
 		if (g_cfg->misc.m_hit_logs)
-		{
-			g_world->all_hit_logs.push_back(logs_struct(tfm::format(xorstr_("hit %s in the %s for %d damage (%d remaining)"),
-				name, m_groups[hitbox], dmg, health).c_str(), ImGui::GetTime()));
+		{			
+			g_event_logs->push(msg, c_color(1.f, 1.f, 1.f, 1.f), 4.f );
 		}
 	}
 }

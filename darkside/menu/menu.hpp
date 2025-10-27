@@ -7,8 +7,11 @@ class c_menu {
 public:
 	bool m_opened;
 
-	void draw( );
-	void on_create_move( );
+	void draw();
+	void on_create_move();
+
+	void draw_bg();
+	void style_setup();
 };
 
-inline const auto g_menu = std::make_unique<c_menu>( );
+inline const auto g_menu = std::make_unique<c_menu>();
