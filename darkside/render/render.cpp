@@ -67,6 +67,9 @@ void c_render::line(vec3_t start_pos, vec3_t end_pos, c_color color, float thick
 	m_background_draw_list->AddLine(start_pos.im(), end_pos.im(), color.im(), thickness);
 }
 
+void c_render::line_airflow(float x1, float y1, float x2, float y2, c_color clr, float thickness) {
+	m_background_draw_list->AddLine(ImVec2(x1, y1), ImVec2(x2, y2), clr.im(), thickness);
+}
 
 void c_render::rect(vec3_t start_pos, vec3_t end_pos, c_color color, float rounding) {
 	m_background_draw_list->AddRect(start_pos.im(), end_pos.im(), color.im(), rounding);
@@ -369,4 +372,47 @@ void c_render::window(vec3_t pos, vec3_t size, c_color background, c_color borde
 
 void c_render::panel(vec3_t pos, vec3_t size, c_color background, c_color border, float rounding, float border_thickness) {
 	window(pos, size, background, border, rounding, border_thickness);
+}
+
+void c_render::string(float x, float y, c_color clr, int flags, ImFont* font, const std::string& message)
+{
+	/*auto char_str = message.c_str();
+
+	m_background_draw_list->PushTextureID(font->ContainerAtlas->TexID);
+
+	ImGui::PushFont(font);
+
+	auto coord = ImVec2(x, y);
+	auto size = ImGui::CalcTextSize(char_str);
+	auto coord_out = ImVec2{ coord.x + 1.f, coord.y + 1.f };
+	c_color outline_clr = c_color(0, 0, 0, (flags & outline_light) || (flags & dropshadow_light) ? clr.a() * 0.35f : clr.a());
+
+	int width = 0, height = 0;
+
+	if (!(flags & centered_x))
+		size.x = 0;
+	if (!(flags & centered_y))
+		size.y = 0;
+
+	ImVec2 pos = ImVec2(coord.x - (size.x * .5f), coord.y - (size.y * .5f));
+
+	if (flags & outline_ || flags & outline_light)
+	{
+		m_background_draw_list->AddText(ImVec2(pos.x + 1, pos.y - 1), outline_clr.as_imcolor(), char_str);
+		m_background_draw_list->AddText(ImVec2(pos.x - 1, pos.y + 1), outline_clr.as_imcolor(), char_str);
+		m_background_draw_list->AddText(ImVec2(pos.x - 1, pos.y - 1), outline_clr.as_imcolor(), char_str);
+		m_background_draw_list->AddText(ImVec2(pos.x + 1, pos.y + 1), outline_clr.as_imcolor(), char_str);
+
+		m_background_draw_list->AddText(ImVec2(pos.x, pos.y + 1), outline_clr.as_imcolor(), char_str);
+		m_background_draw_list->AddText(ImVec2(pos.x, pos.y - 1), outline_clr.as_imcolor(), char_str);
+		m_background_draw_list->AddText(ImVec2(pos.x + 1, pos.y), outline_clr.as_imcolor(), char_str);
+		m_background_draw_list->AddText(ImVec2(pos.x - 1, pos.y), outline_clr.as_imcolor(), char_str);
+	}
+
+	if (flags & dropshadow_ || (flags & dropshadow_light))
+		m_background_draw_list->AddText(ImVec2(pos.x + 1, pos.y + 1), outline_clr.as_imcolor(), char_str);
+
+	m_background_draw_list->AddText(pos, clr.as_imcolor(), char_str);
+	m_background_draw_list->PopTextureID();
+	ImGui::PopFont();*/
 }

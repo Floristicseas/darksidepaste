@@ -12,6 +12,17 @@ enum e_font_flags
 	font_flags_dropshadow = 1 << 2
 };
 
+enum font_flags_t : unsigned int
+{
+	centered_x = 1 << 0,
+	centered_y = 1 << 1,
+	dropshadow_ = 1 << 2,
+	outline_ = 1 << 3,
+	outline_light = 1 << 4,
+	dropshadow_light = 1 << 5,
+};
+
+
 enum class gradient_type
 {
 	horizontal,
@@ -29,6 +40,8 @@ public:
 
 class c_render {
 public:
+
+
 	vec3_t m_screen_size;
 	vec3_t m_screen_center;
 	float m_aspect_ratio;
@@ -105,6 +118,20 @@ public:
 
 	void window(vec3_t pos, vec3_t size, c_color background, c_color border, float rounding = 0.0f, float border_thickness = 1.0f);
 	void panel(vec3_t pos, vec3_t size, c_color background, c_color border, float rounding = 0.0f, float border_thickness = 1.0f);
+
+	void string(float x, float y, c_color clr, int flags, ImFont* font, const std::string& message);
+
+	void line_airflow(float x1, float y1, float x2, float y2, c_color clr, float thickness);
+
+	__forceinline void disable_aa()
+	{
+		m_background_draw_list->Flags &= ~(ImDrawListFlags_AntiAliasedFill | ImDrawListFlags_AntiAliasedLines);
+	}
+
+	__forceinline void enable_aa()
+	{
+		m_background_draw_list->Flags |= ImDrawListFlags_AntiAliasedFill | ImDrawListFlags_AntiAliasedLines;
+	}
 };
 
 inline const auto g_render = std::make_unique<c_render>();

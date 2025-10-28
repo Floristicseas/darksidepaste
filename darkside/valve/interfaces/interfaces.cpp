@@ -18,7 +18,9 @@ void c_interfaces::initialize( ) {
 	m_localize = get_interface<i_localize>( &g_modules->m_modules.localize_dll, xorstr_( "Localize_001" ) );
 	m_file_system = get_interface<i_file_system>( &g_modules->m_modules.filesystem_stdio, xorstr_( "VFileSystem017" ) );
 	m_mat_sys = get_interface<i_material_system>(&g_modules->m_modules.materialsystem2_dll, xorstr_("VMaterialSystem2_001"));
-	
+	m_particle_manager = get_interface<c_particle_manager>(&g_modules->m_modules.particles_system, xorstr_("ParticleSystemMgr003"));
+	ResourceSystem = get_interface<IResourceSystem>(&g_modules->m_modules.resourcesystem_dll, xorstr_("ResourceSystem013"));
+
 	const char* client_dll = g_modules->m_modules.client_dll.get_name();
 
 	const char* material_sys_dll = g_modules->m_modules.materialsystem2_dll.get_name();

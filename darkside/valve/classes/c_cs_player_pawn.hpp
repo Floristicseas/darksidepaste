@@ -11,6 +11,8 @@
 
 #include "../../sdk/typedefs/matrix_t.hpp"
 
+#include "../../sdk/includes/fnv1a.hpp"
+
 #include "game_enums.hpp"
 
 class c_econ_item_definition;
@@ -216,6 +218,15 @@ public:
 
 	bool is_view_model( ) {
 		return vmt::call_virtual<bool>( this, 242 );
+	}
+
+	bool IsViewmodelAttachment()
+	{
+		c_schema_class_info* pClassInfo = nullptr;
+		if (pClassInfo == nullptr)
+			return false;
+
+		return fnv1a::hash_32(pClassInfo->get_name()) == fnv1a::hash_32("C_ViewmodelAttachmentModel");
 	}
 
 	void set_model( const char* model_name ) {
@@ -455,16 +466,6 @@ public:
 		// check are other player is invalid or we're comparing against ourselves
 		//if (pOther == nullptr || this == pOther)
 		//	return false;
-		//
-		//if (g_interfaces->m_var->get_by_index //::game_type->GetInt() == GAMETYPE_FREEFORALL && Convar::game_mode->GetInt() == GAMEMODE_FREEFORALL_SURVIVAL)
-		//	// check is not teammate
-		//	return (this->m_nSurvivalTeam() != pOther->m_nSurvivalTeam());
-		//
-		// @todo: check is deathmatch
-		//if (Convar::mp_teammates_are_enemies->GetBool())
-		//	return true;
-		//
-		//return this->GetAssociatedTeam() != pOther->GetAssociatedTeam();
 
 		return false;
 	}
@@ -517,6 +518,14 @@ public:
 	int get_bone_index( const char* name ) {
 		static const auto fn = reinterpret_cast< int( __fastcall* )( void*, const char* ) >( g_opcodes->scan_absolute( g_modules->m_modules.client_dll.get_name( ), "E8 ? ? ? ? 85 C0 78 ? 4C 8D 4C 24 ? 4C 8B C7", 0x1 ) );
 		return fn( this, name );
+	}
+
+	void SetModel(const char* szModelName)
+	{
+		using SetModel_t = void(__fastcall*)(c_base_entity* pBaseModelEntity, const char* szModelName);
+		static const auto fnSetModel = reinterpret_cast<int(__fastcall*)(void*, const char*)>(g_opcodes->scan_absolute(g_modules->m_modules.client_dll.get_name(), "40 53 48 83 EC 20 48 8B D9 4C 8B C2 48 8B 0D ? ? ? ?", 0x1));
+
+		fnSetModel(this, szModelName);
 	}
 };
 

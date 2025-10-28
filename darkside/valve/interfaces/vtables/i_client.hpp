@@ -254,7 +254,7 @@ public:
 class c_econ_item_system {
 public:
 	c_econ_item_schema* get_econ_item_schema( ) {
-		return *reinterpret_cast<c_econ_item_schema**>( (uintptr_t)( this ) + 0x8 );
+		return *reinterpret_cast<c_econ_item_schema**>( (uintptr_t)( this ) + 0x1 );
 	}
 };
 

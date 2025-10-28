@@ -105,20 +105,20 @@ void c_config_system::setup_values()
     }
 
     // Skins
-    push_item(&g_cfg->skins.m_agents.m_selected_ct, "agent_changer", "selected_ct", g_cfg->skins.m_agents.m_selected_ct);
+    /*push_item(&g_cfg->skins.m_agents.m_selected_ct, "agent_changer", "selected_ct", g_cfg->skins.m_agents.m_selected_ct);
     push_item(&g_cfg->skins.m_agents.m_selected, "agent_changer", "selected_t", g_cfg->skins.m_agents.m_selected);
     push_item(&g_cfg->skins.m_knives.m_selected, "knife_changer", "selected", g_cfg->skins.m_knives.m_selected);
     push_item(&g_cfg->skins.m_gloves.m_selected, "glove_changer", "selected", g_cfg->skins.m_gloves.m_selected);
     push_item(&g_cfg->skins.m_selected_weapon, "skin_changer", "selected_weapon", g_cfg->skins.m_selected_weapon);
-    push_item(&g_cfg->skins.m_selected_type, "skin_changer", "selected_type", g_cfg->skins.m_selected_type);
+    push_item(&g_cfg->skins.m_selected_type, "skin_changer", "selected_type", g_cfg->skins.m_selected_type);*/
 
     static std::vector<const char*> weapons{};
 
-    for (auto weapon = 0; weapon < weapons.size(); weapon++) {
+   /* for (auto weapon = 0; weapon < weapons.size(); weapon++) {
         push_item(&g_cfg->skins.m_skin_settings[weapon].m_paint_kit, "skin_changer", std::format("paint_kit_{0}", weapon), g_cfg->skins.m_skin_settings[weapon].m_paint_kit);
         push_item(&g_cfg->skins.m_skin_settings[weapon].m_item_def_index, "skin_changer", std::format("item_def_index_{0}", weapon), g_cfg->skins.m_skin_settings[weapon].m_item_def_index);
         push_item(&g_cfg->skins.m_skin_settings[weapon].m_prev_skin, "skin_changer", std::format("prev_skin_{0}", weapon), g_cfg->skins.m_skin_settings[weapon].m_prev_skin);
-    }
+    }*/
 }
 
 void c_config_system::push_item(bool* pointer, std::string category, std::string name, bool def_value)

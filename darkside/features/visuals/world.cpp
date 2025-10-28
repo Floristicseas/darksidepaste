@@ -90,8 +90,6 @@ void c_world::exposure( c_post_processing_volume* post_processing ) {
 
 void c_world::draw_scope_overlay()
 {
-    //if (!g_cfg->misc.m_removals[0])
-    //    return;
 
     if (!g_interfaces->m_engine->is_in_game())
         return;
@@ -103,7 +101,7 @@ void c_world::draw_scope_overlay()
 
     vec3_t screen = g_render->m_screen_size;
 
-    if (!g_cfg->world_esp.custom_crosshair)
+    if (!g_cfg->world_esp.custom_crosshair && g_cfg->misc.m_removals[0])
     {
         g_render->line(vec3_t(0, screen.y / 2), vec3_t(screen.x, screen.y / 2), c_color(0, 0, 0, 1.f));
         g_render->line(vec3_t(screen.x / 2, 0), vec3_t(screen.x / 2, screen.y), c_color(0, 0, 0, 1.f));
@@ -111,7 +109,7 @@ void c_world::draw_scope_overlay()
     }
 
 
-    if (g_cfg->world_esp.custom_crosshair) {
+    if (g_cfg->world_esp.custom_crosshair && g_cfg->misc.m_removals[0]) {
         static float m_alpha = 0.f;
 
         float frametime = g_interfaces->m_global_vars->m_frame_time;

@@ -5,25 +5,6 @@
 #include "chams.hpp"
 #define IM_PI                           3.14159265358979323846f
 
-namespace visuals
-{
-	bool Setup()
-	{
-		if (!chams::chams->initialize())
-		{
-			printf("failed to initialize DrawObject chams");
-			return false;
-		}
-
-		return true;
-	}
-
-	bool OnDrawObject(void* pAnimatableSceneObjectDesc, void* pDx11, material_data_t* arrMeshDraw, int nDataCount, void* pSceneView, void* pSceneLayer, void* pUnk, void* pUnk2)
-	{
-		return chams::chams->draw_object(pAnimatableSceneObjectDesc, pDx11, arrMeshDraw, nDataCount, pSceneView, pSceneLayer, pUnk, pUnk2);
-	}
-}
-
 bbox_t c_visuals::calculate_bbox(c_cs_player_pawn* entity)
 {
 	if (!entity || !entity->is_player_pawn())
@@ -131,7 +112,6 @@ bool c_visuals::get_bone_position(c_cs_player_pawn* player_pawn, int bone, vec3_
 	if (!scene_node)
 		return false;
 
-	// Get bone matrix from scene node
 	c_skeleton_instace* bone_matrix = scene_node->get_skeleton_instance();
 	if (!bone_matrix)
 		return false;

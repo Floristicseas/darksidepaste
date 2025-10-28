@@ -11,17 +11,17 @@ public:
 };
 
 struct material_key_var_t {
-    SCHEMA(m_key, uint64_t, "MaterialKeyVar", "m_key");
-    SCHEMA(m_name, const char*, "MaterialKeyVar", "m_name");
+    std::uint64_t m_key;
+    const char* m_name;
 
     material_key_var_t(uint64_t key, const char* name) {
-        m_key() = key;
-        m_name() = name;
+        m_key = key;
+        m_name = name;
     }
 
     material_key_var_t(const char* name, bool should_find_key = false) {
-        m_name() = name;
-        m_key() = should_find_key ? find_key(name) : 0x0;
+        m_name = name;
+        m_key = should_find_key ? find_key(name) : 0x0;
     }
 
     std::uint64_t find_key(const char* name) {
@@ -35,19 +35,24 @@ struct material_key_var_t {
 
 class object_info_t {
 public:
-    SCHEMA(m_id, int, "ObjectInfo", "m_id");
+    char pad_0000[0xB0];
+    int m_id;
 };
 
 class scene_animable_object_t {
 public:
-    SCHEMA(m_owner, c_base_handle, "SceneAnimableObject", "m_hOwner");
+    c_base_handle Owner() const {
+        if (!this)
+            return c_base_handle();
+
+        return *(c_base_handle*)((std::uintptr_t)this + 0xB8);
+    }
 };
 
 class material_data_t {
 public:
     SCHEMA(m_scene_animable, scene_animable_object_t*, "MaterialData", "m_pSceneAnimable");
     SCHEMA(m_material, material2_t*, "MaterialData", "m_pMaterial");
-    SCHEMA(m_color, c_color, "MaterialData", "m_color");
 
     void set_shader_type(const char* shader_name) {
         using fn_set_material_shader_type = void(__thiscall*)(void*, material_key_var_t, const char*, int);
@@ -65,6 +70,13 @@ public:
 
         material_key_var_t function_var(function_name, true);
         set_material_function(this, function_var, value, 0x18);
+    }
+
+    static void set_color(void* data, c_color color) {
+        *reinterpret_cast<uint8_t*>(reinterpret_cast<uintptr_t>(data) + 0x50) = color.r;
+        *reinterpret_cast<uint8_t*>(reinterpret_cast<uintptr_t>(data) + 0x51) = color.g;
+        *reinterpret_cast<uint8_t*>(reinterpret_cast<uintptr_t>(data) + 0x52) = color.b;
+        *reinterpret_cast<uint8_t*>(reinterpret_cast<uintptr_t>(data) + 0x53) = color.a;
     }
 };
 
@@ -104,6 +116,27 @@ public:
         }
         return nullptr;
     }
+
+};
+
+class CMeshData
+{
+public:
+
+private:
+    char pad_0001[0x18]; // 0x0
+public:
+    scene_animable_object_t* pSceneAnimatableObject; // 0x18
+    material2_t* pMaterial; // 0x20
+    material2_t* pMaterialCopy; // 0x20
+private:
+    char pad_0002[0x10]; // 0x28
+public:
+    object_info_t* pObjectInfo;
+private:
+    char pad_0003[0x8];
+public:
+    c_color color;
 };
 
 inline i_material_system* g_material_system = nullptr;

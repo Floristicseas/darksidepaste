@@ -6,6 +6,17 @@
 #include "../../valve/modules/modules.hpp"
 #include "../../valve/classes/c_murmurhash.hpp"
 #include "../../sdk/vfunc/vfunc.hpp"
+#include "../../sdk/typedefs/vec_t.hpp"
+#include "../../sdk/includes/imgui/imgui.h"
+
+struct hitmarker_data
+{
+	
+	float time;
+
+	ImVec2 pos;
+
+};
 
 class c_game_event;
 class c_cs_player_controller;
@@ -167,6 +178,9 @@ public:
 class c_events : public i_game_event_listener
 {
 public:
+	std::vector< hitmarker_data > hitmarkers{ };
+
+	void draw_hitmarkers();
 	void on_bullet_tracer(c_game_event* event);
 	void fire_game_event(c_game_event* event);
 	void on_player_hurt(c_game_event* event);

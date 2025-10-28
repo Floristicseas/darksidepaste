@@ -71,6 +71,10 @@ public:
 	float get_float( ) const {
 		return m_value.m_fl;
 	}
+
+	bool set_bool(bool valuem) { return m_value.m_i1 = valuem; }
+	int set_int(int valuem) { return m_value.m_i32 = valuem; }
+	float set_float(float valuem) { return m_value.m_fl = valuem; }
 };
 
 using var_iterator_t = unsigned long long;
@@ -94,4 +98,6 @@ public:
 	convar_t* get_by_name( const char* name );
 
 	void unlock_hidden_vars( );
+
+
 };

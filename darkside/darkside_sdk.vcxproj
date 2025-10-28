@@ -169,6 +169,7 @@
     <ClCompile Include="features\eng_pred\eng_pred.cpp" />
     <ClCompile Include="features\event\event.cpp" />
     <ClCompile Include="features\event\logs\logs.cpp" />
+    <ClCompile Include="features\event\tracers.cpp" />
     <ClCompile Include="features\movement\movement.cpp" />
     <ClCompile Include="features\protobufs\protobufs.cpp" />
     <ClCompile Include="features\rage_bot\rage_bot.cpp" />
@@ -222,6 +223,7 @@
     <ClInclude Include="features\event\event.hpp" />
     <ClInclude Include="features\event\logs\logs.hpp" />
     <ClInclude Include="features\event\sounds.hpp" />
+    <ClInclude Include="features\event\tracers.hpp" />
     <ClInclude Include="features\movement\movement.hpp" />
     <ClInclude Include="features\protobufs\protobufs.hpp" />
     <ClInclude Include="features\rage_bot\rage_bot.hpp" />
@@ -358,6 +360,7 @@
     <ClInclude Include="sdk\typedefs\qangle.hpp" />
     <ClInclude Include="sdk\typedefs\qangle_t.hpp" />
     <ClInclude Include="utils\key_handler.hpp" />
+    <ClInclude Include="utils\pe64.h" />
     <ClInclude Include="valve\classes\c_cs_player_controller.hpp" />
     <ClInclude Include="valve\classes\c_cs_player_pawn.hpp" />
     <ClInclude Include="valve\classes\c_envy_sky.hpp" />
@@ -367,6 +370,7 @@
     <ClInclude Include="valve\classes\c_post_processing.hpp" />
     <ClInclude Include="valve\classes\c_scene_light_obj.hpp" />
     <ClInclude Include="valve\classes\c_view_setup.hpp" />
+    <ClInclude Include="valve\interfaces\vtables\bufferstring.hpp" />
     <ClInclude Include="valve\interfaces\vtables\cs_usercmd.pb.h" />
     <ClInclude Include="valve\interfaces\vtables\i_client.hpp" />
     <ClInclude Include="valve\interfaces\vtables\i_convar.hpp" />
@@ -382,6 +386,7 @@
     <ClInclude Include="valve\interfaces\vtables\netmessages.pb.h" />
     <ClInclude Include="valve\interfaces\vtables\networkbasetypes.pb.h" />
     <ClInclude Include="valve\interfaces\vtables\network_connection.pb.h" />
+    <ClInclude Include="valve\interfaces\vtables\resourcesystem.hpp" />
     <ClInclude Include="valve\interfaces\vtables\usercmd.pb.h" />
     <ClInclude Include="valve\interfaces\vtables\usermessages.pb.h" />
     <ClInclude Include="valve\interfaces\vtables\utl.hpp" />

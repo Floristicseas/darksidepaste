@@ -55,8 +55,12 @@ inline type_t* get_interface( c_dll* dll, const char* name )
 	return create_interface( name, nullptr );
 };
 
+
 class i_material_system;
 class CUtlBuffer;
+class c_game_particle_manager_system;
+class c_particle_manager;
+class IResourceSystem;
 class c_interfaces
 {
 public:
@@ -75,6 +79,9 @@ public:
 	i_file_system* m_file_system;
 	i_material_system* m_mat_sys;
 	i_game_event_manager* m_game_event_manager;
+	c_game_particle_manager_system* m_game_particle_manager_system;
+	c_particle_manager* m_particle_manager;
+	IResourceSystem* ResourceSystem;
 
 	float( __cdecl* m_random_float )( float min, float max ) = nullptr;
 	int( __cdecl* m_random_seed )( int seed ) = nullptr;

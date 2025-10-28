@@ -15,10 +15,15 @@
 #include "../features/anim_sync/anim_sync.hpp"
 #include "../features/visuals/chams.hpp"
 
+#include "../sdk/includes/fnv1a.hpp"
+
 using namespace hooks;
 
 bool c_hooks::initialize( ) {
+
 	MH_Initialize( );
+
+	//g_skins->dump_items();
 
 	create_move::m_create_move.hook( vmt::get_v_method( g_interfaces->m_csgo_input, 5 ), create_move::hk_create_move );
 	enable_cursor::m_enable_cursor.hook( vmt::get_v_method( g_interfaces->m_input_system, 76 ), enable_cursor::hk_enable_cursor );
@@ -41,7 +46,7 @@ bool c_hooks::initialize( ) {
 
 	draw_light_scene::m_draw_light_scene.hook( g_opcodes->scan( g_modules->m_modules.scenesystem_dll.get_name( ), "8B 02 89 01 F2 0F 10 42 ? F2 0F 11 41 ? 8B 42 ? 89 41 ? F2 0F 10 42" ), draw_light_scene::hk_draw_light_scene );
 
-	update_aggregate_scene_object::m_update_aggregate_scene_object.hook( g_opcodes->scan( g_modules->m_modules.scenesystem_dll.get_name( ), "48 89 5C 24 ? 48 89 6C 24 ? 56 57 41 54 41 56 41 57 48 83 EC ? 4C 8B F95" ), update_aggregate_scene_object::hk_update_aggregate_scene_object );
+	update_aggregate_scene_object::m_update_aggregate_scene_object.hook( g_opcodes->scan( g_modules->m_modules.scenesystem_dll.get_name( ), "48 89 5C 24 ? 55 56 41 55 41 56 41 57 48 83 EC 20 4C 8D B9 ? ? ? ?" ), update_aggregate_scene_object::hk_update_aggregate_scene_object );
 
 	draw_aggregate_scene_object::m_draw_aggregate_scene_object.hook( g_opcodes->scan( g_modules->m_modules.scenesystem_dll.get_name( ), "48 8B C4 4C 89 40 ? 48 89 50 ? 55 53 41 57" ), draw_aggregate_scene_object::hk_draw_aggregate_scene_object );
 
@@ -72,11 +77,9 @@ bool c_hooks::initialize( ) {
 
 	glow_manager::glow.hook(g_opcodes->scan(g_modules->m_modules.client_dll.get_name(), "40 53 48 83 EC 20 48 8B 54 24 ? 48 8D 59 30"), glow_manager::hk_is_glowing);
 
-	object::drawobject.hook(g_opcodes->scan(g_modules->m_modules.scenesystem_dll.get_name(), "48 8B C4 4C 89 40 18 48 89 50 10 48 89 48 08 55 56 57"), object::hk_draw_object);
+	object::drawobject.hook(g_opcodes->scan(g_modules->m_modules.scenesystem_dll.get_name(), "48 8B C4 53 57 41 54 48 81 EC ? ? ? ? 49 63 F9 49"), object::hk_draw_object);
 
-	aspect::ratio.hook(g_opcodes->scan(g_modules->m_modules.engine2_dll.get_name(), "48 89 5C 24 ? 57 48 83 EC ? 8B FA 48 8D 0D"), aspect::hk_aspect_ratio);
-
-	//chams::chams->initialize(); //crash
+	g_model_changer->update_player_models();
 
 	LOG_INFO( xorstr_( "[+] Hooks initialization completed!" ) );
 	return true;
@@ -132,7 +135,7 @@ void __fastcall hooks::create_move::hk_create_move( i_csgo_input* rcx, int slot,
 		return;
 
 	if ( !g_ctx->m_local_pawn )
-		return;
+		return;	
 
 	user_cmd->pb.mutable_base( )->clear_subtick_moves( );
 
@@ -141,6 +144,16 @@ void __fastcall hooks::create_move::hk_create_move( i_csgo_input* rcx, int slot,
 		user_cmd->pb.mutable_base( )->viewangles( ).y( ),
 		user_cmd->pb.mutable_base( )->viewangles( ).z( )
 	};
+
+	static auto draw_grenade = g_interfaces->m_var->get_by_name("sv_grenade_trajectory_prac_pipreview");
+
+	if (g_cfg->world.m_gred_pred)
+	{
+		draw_grenade->set_bool(true);
+		g_interfaces->m_var->get_by_name("sv_grenade_trajectory_prac_trailtime")->set_float(5);		
+	}
+	else // disabled
+		draw_grenade->set_bool(false);
 
 	g_menu->on_create_move( );
 
@@ -227,10 +240,13 @@ void hooks::frame_stage_notify::hk_frame_stage_notify( void* source_to_client, i
 
 	switch ( stage ) {
 	case FRAME_RENDER_START:
-		//g_skins->knife_changer( stage );
 		break;
 	case FRAME_RENDER_END:
-		//g_skins->knife_changer( stage );
+		if (g_cfg->skins.m_custom_models)
+			g_model_changer->set_player_model();
+
+		//g_skins->knife_changer(stage);
+
 		break;
 	case FRAME_NET_UPDATE_END:
 		g_rage_bot->store_records( );
@@ -275,14 +291,7 @@ void* hooks::override_view::hk_override_view(void* source_to_client, c_view_setu
 	c_cs_player_pawn* local_player = g_ctx->m_local_pawn;
 
 	if (!local_player)
-		return original(source_to_client, view_setup);
-
-	if (g_cfg->misc.m_aspect_ratio != 0.50f) {
-		view_setup->m_some_flags |= 2;
-		view_setup->m_aspect_ratio = g_cfg->misc.m_aspect_ratio;
-	}
-	else
-		view_setup->m_some_flags &= ~2;
+		return original(source_to_client, view_setup);	
 
 	if (g_cfg->misc.m_removals[7])
 	{
@@ -339,6 +348,15 @@ void* hooks::on_level_init::hk_on_level_init( void* a1, const char* map_name ) {
 	static auto original = m_on_level_init.get_original< decltype( &hk_on_level_init ) >( );
 
 	g_entity_system->level_init( );
+
+	if (!g_interfaces->m_game_particle_manager_system)
+	{
+		using fn_t = c_game_particle_manager_system * (__fastcall*)();
+		static fn_t fn = reinterpret_cast<fn_t>(g_opcodes->scan(g_modules->m_modules.client_dll.get_name(), xorstr_("48 8B 05 ?? ?? ?? ?? C3 CC CC CC CC CC CC CC CC 48 89 5c 24 ? 48 89 74 24 ? 57 48 83 EC 40 49 8B F8")));
+		g_interfaces->m_game_particle_manager_system = fn();
+	}
+
+	g_interfaces->m_particle_manager = get_interface< c_particle_manager >(&g_modules->m_modules.particles_system, xorstr_("ParticleSystemMgr003"));
 
 	return original( a1, map_name );
 }
@@ -478,7 +496,6 @@ void hooks::draw_scope_overlay::hk_draw_scope_overlay( void* a1, void* a2 ) {
 	if (!g_cfg->misc.m_removals[0])
 		return original(a1, a2);
 
-	else if (g_cfg->misc.m_removals[0])
 		return;
 }
 
@@ -542,7 +559,7 @@ bool hooks::overhead_info::hk_overhead_remove(c_cs_player_pawn* a1) {
 		return true;
 	}
 
-	//if (!a1->isenemy(g_ctx->m_local_pawn) &&
+	//if (!a1->IsEnemy(g_ctx->m_local_pawn) &&
 	//	(g_cfg->misc.remove_overhead_team)
 	//	return false;
 	//return true;
@@ -600,7 +617,7 @@ void* hooks::viewmodel::hk_calc_viewmodel(float* flUnk, float* flOffsets, float*
 
 }
 
-void* hooks::object::hk_draw_object(void* pAnimatableSceneObjectDesc, void* pDx11, material_data_t* arrMeshDraw, int nDataCount, void* pSceneView, void* pSceneLayer, void* pUnk, void* pUnk2) {
+void* hooks::object::hk_draw_object(void* pAnimatableSceneObjectDesc, void* pDx11, CMeshData* arrMeshDraw, int nDataCount, void* pSceneView, void* pSceneLayer, void* pUnk, void* pUnk2) {
 	static auto original = drawobject.get_original< decltype(&hk_draw_object) >();
 
 	if (g_interfaces->m_engine->is_connected() || g_interfaces->m_engine->is_in_game())
@@ -608,40 +625,42 @@ void* hooks::object::hk_draw_object(void* pAnimatableSceneObjectDesc, void* pDx1
 
 	if (g_ctx->m_local_controller == nullptr || g_ctx->m_local_pawn == nullptr)
 		return original(pAnimatableSceneObjectDesc, pDx11, arrMeshDraw, nDataCount, pSceneView, pSceneLayer, pUnk, pUnk2);
-
+	
 	if (!arrMeshDraw)
 		return original(pAnimatableSceneObjectDesc, pDx11, arrMeshDraw, nDataCount, pSceneView, pSceneLayer, pUnk, pUnk2);
 
-	if (!arrMeshDraw->m_scene_animable())
+	if (!arrMeshDraw->pSceneAnimatableObject)
 		return original(pAnimatableSceneObjectDesc, pDx11, arrMeshDraw, nDataCount, pSceneView, pSceneLayer, pUnk, pUnk2);
 
 	if (nDataCount < 1)
 		return original(pAnimatableSceneObjectDesc, pDx11, arrMeshDraw, nDataCount, pSceneView, pSceneLayer, pUnk, pUnk2);
 
-	material_data_t* render_data = arrMeshDraw;
+	CMeshData* render_data = arrMeshDraw;
 
 	if (!render_data)
 		return original(pAnimatableSceneObjectDesc, pDx11, arrMeshDraw, nDataCount, pSceneView, pSceneLayer, pUnk, pUnk2);
 
-	if (!render_data->m_scene_animable())
+	if (!render_data->pSceneAnimatableObject)
 		return original(pAnimatableSceneObjectDesc, pDx11, arrMeshDraw, nDataCount, pSceneView, pSceneLayer, pUnk, pUnk2);
 
-	auto render_ent = render_data->m_scene_animable()->m_owner();
-
+	auto render_ent = render_data->pSceneAnimatableObject->Owner();
 	if (!render_ent.is_valid())
 		return original(pAnimatableSceneObjectDesc, pDx11, arrMeshDraw, nDataCount, pSceneView, pSceneLayer, pUnk, pUnk2);
 
-	auto entity = g_interfaces->m_entity_system->get_base_entity(render_ent.get_entry_index());
-
+	auto entity = g_interfaces->m_entity_system->get_base_entity(render_ent.to_int());
 	if (!entity)
 		return original(pAnimatableSceneObjectDesc, pDx11, arrMeshDraw, nDataCount, pSceneView, pSceneLayer, pUnk, pUnk2);
 
-	//const auto target = targettype(entity);
+    const auto target = chams::GetTargetType(entity);
 
+	if (target == ChamsEntity::VIEWMODEL && g_cfg->visuals.chams.m_weapon.m_enabled) {
+		arrMeshDraw->pMaterial = chams::GetMaterial(g_cfg->visuals.chams.m_weapon.m_type, false);
+		arrMeshDraw->color.r = static_cast<uint8_t>(g_cfg->visuals.chams.m_weapon.m_color.r * 255.0f);
+		arrMeshDraw->color.g = static_cast<uint8_t>(g_cfg->visuals.chams.m_weapon.m_color.g * 255.0f);
+		arrMeshDraw->color.b = static_cast<uint8_t>(g_cfg->visuals.chams.m_weapon.m_color.b * 255.0f);
+		arrMeshDraw->color.a = static_cast<uint8_t>(g_cfg->visuals.chams.m_weapon.m_color.a * 255.0f);
+		return original(pAnimatableSceneObjectDesc, pDx11, arrMeshDraw, nDataCount, pSceneView, pSceneLayer, pUnk, pUnk2);
+	}
 
-}
-
-float hooks::aspect::hk_aspect_ratio(__int64 a1, int a2, int a3) {
-	static auto original = ratio.get_original< decltype(&hk_aspect_ratio) >();
-		return original(a1, a2, a3);
+	return original(pAnimatableSceneObjectDesc, pDx11, arrMeshDraw, nDataCount, pSceneView, pSceneLayer, pUnk, pUnk2);
 }

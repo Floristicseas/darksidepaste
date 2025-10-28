@@ -14,8 +14,7 @@ void destroy( HMODULE h_module ) {
 uintptr_t __stdcall start_address( const HMODULE h_module ) {
     logger::initialize( );
 
-    std::filesystem::create_directory( "c:\\airflow\\" );
-    std::filesystem::create_directory( "c:\\airflow\\configs\\" );
+    std::filesystem::create_directories("c:\\airflow\\configs\\");
 
     g_modules->m_modules.initialize( );
     g_interfaces->initialize( );

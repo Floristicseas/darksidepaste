@@ -4,6 +4,8 @@
 #define CRC32_NUM(in) std::integral_constant<uint32_t, crc32::hash_const((const char*)&in, sizeof(in))>::value
 #define CRC32_STR(in) std::integral_constant<uint32_t, crc32::hash_const(in, sizeof(in)-1)>::value
 
+using FNV1A_t = std::uint64_t;
+
 namespace crc32 {
 	static constexpr uint32_t table[] = {
 		0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419, 0x706af48f,
@@ -103,5 +105,16 @@ namespace fnv1a
 
 	inline constexpr uint64_t hash_64( const char* const str, const uint64_t value = val_64_const ) noexcept {
 		return ( str[ 0 ] == '\0' ) ? value : hash_64( &str[ 1 ], ( value ^ uint64_t( (uint8_t)str[ 0 ] ) ) * prime_64_const );
+	}
+
+	namespace FNV1A
+	{
+		constexpr FNV1A_t ullBasis = 0xCBF29CE484222325ULL;
+		constexpr FNV1A_t ullPrime = 0x100000001B3ULL;
+
+		consteval FNV1A_t HashConst(const char* szString, const FNV1A_t uKey = ullBasis) noexcept
+		{
+			return (szString[0] == '\0') ? uKey : HashConst(&szString[1], (uKey ^ static_cast<FNV1A_t>(szString[0])) * ullPrime);
+		}
 	}
 }

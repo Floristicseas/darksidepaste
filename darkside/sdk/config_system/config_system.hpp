@@ -103,7 +103,7 @@ public:
 			bool m_bGlow_local;
 			bool m_bGlowOnRagdoll;
 			c_color glow_color = c_color(255, 255, 255, 255);
-			c_color glow_color_local = c_color(0.36f, 0.36f, 0.36f, 1.f);
+			c_color glow_color_local = c_color(0.36f, 0.36f, 0.36f);
 		} glow; 
 
 		struct chams_t {
@@ -160,9 +160,16 @@ public:
 	} world_esp;
 
 	struct world_modulation_t {
-		c_color m_sky{ 0.36f, 0.36f, 0.36f }, m_sky_clouds{ 0.37f, 0.84f, 0.98f, 1.f }, m_wall{ 1.f, 1.f, 1.f }, m_lighting{ 0.35f, 0.35f, 0.52f };
+		c_color m_sky{ 0.36f, 0.36f, 0.36f }, m_sky_clouds{ 0.37f, 0.84f, 0.98f, 1.f }, m_wall{ 1.f, 1.f, 1.f, 1.f }, m_lighting{ 0.35f, 0.35f, 0.52f };
 		int m_exposure = 20;
+
+		int m_hit_effect_mode;
+		bool m_bullet_tracer;
+		int m_bullet_tracer_mode;
+		bool m_hit_effect;
+
 		bool m_render_fog;	
+		bool m_gred_pred;
 	} world;
 
 	struct misc_t
@@ -180,11 +187,16 @@ public:
 		int m_quick_peek_assistant_type = 0;
 		int m_override_quick_peek_assistant, m_override_quick_peek_assistant_style;
 		c_color hitmark_clr{ 1.f, 1.f, 1.f };
-		float m_aspect_ratio;
+		float m_aspect_ratio_debug;
 		int m_hit_sound_mode;
+		int m_hitmark_mode;
 		bool m_hitsound;
+		bool m_hitmark;
 		bool m_hit_logs;
 		
+		bool damageonenemy;
+		c_color damageclr{ 1.f, 1.f, 1.f };
+
 		bool m_removals[7];
 	} misc;
 
@@ -193,25 +205,14 @@ public:
 		{
 			int m_selected = 0;
 			int m_selected_ct = 0;
+			bool m_agent_changer;
 		} m_agents;
 
-		struct skin_data_t
-		{
-			int m_paint_kit = 0;
-			int m_item_def_index = 0;
-
-			int m_prev_skin = -1;
-		} m_skin_settings[ 100 ];
-
 		struct
 		{
+			bool m_knife_changer;
 			int m_selected = 0;
 		} m_knives;
-
-		struct
-		{
-			int m_selected = 0;
-		} m_gloves;
 
 		bool m_custom_models;
 

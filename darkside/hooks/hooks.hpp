@@ -9,6 +9,7 @@ class c_base_entiy;
 class c_cs_player_pawn;
 class CGlowProperty;
 class material_data_t;
+class CMeshData;
 
 class c_hook {
 	void* m_function;
@@ -259,14 +260,14 @@ namespace hooks
 	{
 		inline c_hook drawobject;
 
-		void* hk_draw_object(void* pAnimatableSceneObjectDesc, void* pDx11, material_data_t* arrMeshDraw, int nDataCount, void* pSceneView, void* pSceneLayer, void* pUnk, void* pUnk2);
+		void* hk_draw_object(void* pAnimatableSceneObjectDesc, void* pDx11, CMeshData* arrMeshDraw, int nDataCount, void* pSceneView, void* pSceneLayer, void* pUnk, void* pUnk2);
 	}
 
 	namespace aspect
 	{
 		inline c_hook ratio;
 
-		float hk_aspect_ratio(__int64 a1, int a2, int a3);
+		float hk_aspect_ratio(i_engine_client* a1, int a2, int a3);
 	}
 }
 

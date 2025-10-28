@@ -95,5 +95,6 @@ struct globals_t {
 	c_user_cmd* m_user_cmd;
 	c_cs_player_pawn* m_local_pawn;
 	c_cs_player_controller* m_local_controller;
+	float animation_speed{ };
 };
 inline const auto g_ctx = std::make_unique<globals_t>( );

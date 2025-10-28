@@ -9,6 +9,11 @@
 
 #include "logs/logs.hpp"
 
+#include "tracers.hpp"
+
+#include "../../render/render.hpp"
+
+
 const char* m_groups[] = {
    xorstr_("body"),
    xorstr_("head"),
@@ -146,6 +151,35 @@ void c_events::player_death(c_game_event* event)
 		return;
 }
 
+void c_events::draw_hitmarkers()
+{
+	if (hitmarkers.empty())
+		return;
+
+	float currentTime = g_interfaces->m_global_vars->m_real_time;
+	float duration = 0.5f; 
+	float size = 8.0f;    
+
+	for (auto it = hitmarkers.begin(); it != hitmarkers.end(); )
+	{
+		float alpha = 1.0f - (currentTime - it->time) / duration;
+
+		if (alpha <= 0.0f)
+		{
+			it = hitmarkers.erase(it); 
+			continue;
+		}
+
+		ImU32 color = ImGui::GetColorU32(ImVec4(1.f, 1.f, 1.f, alpha));
+		ImVec2 p = it->pos;
+
+		g_render->line_airflow(p.x - size, p.y - size, p.x + size, p.y + size, color, 1.f);
+		g_render->line_airflow(p.x - size, p.y + size, p.x + size, p.y - size, color, 1.f);
+
+		++it;
+	}
+}
+
 void c_events::on_player_hurt(c_game_event* event)
 {
 	if (!g_interfaces->m_engine->is_connected() || !g_interfaces->m_engine->is_in_game())
@@ -179,7 +213,7 @@ void c_events::on_player_hurt(c_game_event* event)
 	auto health = event->get_int2(xorstr_("health"), false);
 	auto name = reinterpret_cast<c_cs_player_controller*>(pPlayer)->m_player_name();
 
-	std::string msg = std::format("hit {} in the {} for {} damage ({} remaining)",
+	std::string msg = std::format("Hit {} in the {} for {} damage [{} remaining]",
 		name, m_groups[hitbox], dmg, health);
 
 	if (attacker == localController)
@@ -200,6 +234,19 @@ void c_events::on_player_hurt(c_game_event* event)
 		{			
 			g_event_logs->push(msg, c_color(1.f, 1.f, 1.f, 1.f), 4.f );
 		}
+
+		if (g_cfg->misc.m_hitmark)
+		{
+			hitmarker_data hm;
+			hm.time = g_interfaces->m_global_vars->m_real_time;
+
+			int screen_w = g_render->m_screen_size.x;
+			int screen_h = g_render->m_screen_size.y;
+			hm.pos = ImVec2(screen_w * 0.5f, screen_h * 0.5f);
+
+			hitmarkers.push_back(hm);
+		}
+
 	}
 }
 
@@ -226,5 +273,15 @@ void c_events::on_bullet_tracer(c_game_event* event)
 	c_game_event_helper event_helper = event->get_event_helper();
 
 	auto pPlayer = event_helper.GetPlayerController();
+
+	if (event->get_event_helper().GetPlayerController() == g_ctx->m_local_controller)
+	{
+		g_bullet_tracer->add_bullet_trace(local_pawn->get_eye_pos(), position, (g_cfg->world.m_bullet_tracer * 255));
+
+		if (!g_cfg->world.m_hit_effect)
+			return;
+
+		g_bullet_tracer->add_hit_effect(position, (255, 255, 255));
+	}
 
 }
