@@ -14,6 +14,9 @@
 #include "../features/rage_bot/rage_bot.hpp"
 #include "../features/anim_sync/anim_sync.hpp"
 #include "../features/visuals/chams.hpp"
+#include "../features/event/tracers.hpp"
+
+#include "../menu/custom/keybinds.hpp"
 
 #include "../sdk/includes/fnv1a.hpp"
 
@@ -299,8 +302,20 @@ void* hooks::override_view::hk_override_view(void* source_to_client, c_view_setu
 	}
 
 	bool in_third_person = false;
-	if (g_key_handler->is_pressed(g_cfg->world_esp.m_thirdperson_key_bind, g_cfg->world_esp.m_thirdperson_key_bind_style))
+
+	bool pressed = g_key_handler->is_pressed(
+		g_cfg->world_esp.m_thirdperson_key_bind,
+		g_cfg->world_esp.m_thirdperson_key_bind_style
+	);
+
+	if (pressed) {
+		g_keybinds_display->push("Thirdperson", g_cfg->world_esp.m_thirdperson_key_bind_style);
 		in_third_person = true;
+	}
+	else {
+		g_keybinds_display->remove("Thirdperson");
+		in_third_person = false;
+	}
 
 	if (in_third_person && local_player->is_alive())
 	{

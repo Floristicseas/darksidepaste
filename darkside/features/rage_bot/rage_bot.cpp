@@ -2,6 +2,7 @@
 #include "../../entity_system/entity.hpp"
 #include "../movement/movement.hpp"
 #include "../../render/render.hpp"
+#include "../../menu/custom/keybinds.hpp"
 
 void c_rage_bot::store_records( ) {
 	if ( !g_interfaces->m_engine->is_in_game( ) || !g_interfaces->m_engine->is_connected( ) )
@@ -422,24 +423,30 @@ aim_point_t c_rage_bot::select_points( lag_record_t* record, float& damage ) {
 	return best_point;
 }
 
-void c_rage_bot::select_target( ) {
-	if ( !g_ctx->m_local_pawn->is_alive( ) )
+void c_rage_bot::select_target() {
+	if (!g_key_handler->is_pressed(g_cfg->rage_bot.m_override_damage_key_bind, g_cfg->rage_bot.m_override_damage_key_bind_style)) {
+		g_keybinds_display->remove("Min dmg override");
+	}
+	
+	if (!g_ctx->m_local_pawn->is_alive())
 		return;
 
-	if ( m_aim_targets.empty( ) )
+	if (m_aim_targets.empty())
 		return;
 
-	aim_target_t* best_target = this->get_nearest_target( );
+	aim_target_t* best_target = this->get_nearest_target();
 
-	if ( !best_target || !best_target->m_lag_record || !best_target->m_pawn->is_alive( ) )
+	if (!best_target || !best_target->m_lag_record || !best_target->m_pawn->is_alive())
 		return;
 
-	bool is_taser = g_ctx->m_local_pawn->get_active_weapon( )->get_weapon_data( )->m_weapon_type( ) == WEAPONTYPE_TASER;
+	bool is_taser = g_ctx->m_local_pawn->get_active_weapon()->get_weapon_data()->m_weapon_type() == WEAPONTYPE_TASER;
 
-	int min_damage = min( g_cfg->rage_bot.m_minimum_damage, best_target->m_lag_record->m_pawn->m_health( ) );
+	int min_damage = min(g_cfg->rage_bot.m_minimum_damage, best_target->m_lag_record->m_pawn->m_health());
 
-	if ( g_key_handler->is_pressed( g_cfg->rage_bot.m_override_damage_key_bind, g_cfg->rage_bot.m_override_damage_key_bind_style ) )
-		min_damage = min( g_cfg->rage_bot.m_minimum_damage_override, best_target->m_lag_record->m_pawn->m_health( ) );
+	if (g_key_handler->is_pressed(g_cfg->rage_bot.m_override_damage_key_bind, g_cfg->rage_bot.m_override_damage_key_bind_style)) {
+		g_keybinds_display->push("Min dmg override", g_cfg->rage_bot.m_override_damage_key_bind_style);
+		min_damage = min(g_cfg->rage_bot.m_minimum_damage_override, best_target->m_lag_record->m_pawn->m_health());
+	}
 
 	if ( is_taser )
 		min_damage = best_target->m_lag_record->m_pawn->m_health( );

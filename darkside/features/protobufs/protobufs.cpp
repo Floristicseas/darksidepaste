@@ -42,7 +42,7 @@ CSGOInputHistoryEntryPB* c_protobuf::create_new_input_history( google::protobuf:
 
 CSubtickMoveStep* c_protobuf::create_new_subtick_move_step( google::protobuf::repeated_ptr_field_t<CSubtickMoveStep>* rept_ptr, void* arena ) {
 	static auto fn_create_new_subtick_move_step = reinterpret_cast<CSubtickMoveStep * ( __fastcall* )( void* )>( g_opcodes->scan_absolute( g_modules->m_modules.client_dll.get_name( ), xorstr_( "E8 ? ? ? ? 48 8B D0 48 8D 4F ? E8 ? ? ? ? 48 8B D0" ), 0x1 ) );
-	static auto fn_add_element_to_rep_field_container = reinterpret_cast<CSubtickMoveStep * ( __fastcall* )( google::protobuf::repeated_ptr_field_t<CSubtickMoveStep>*, void* )>( g_opcodes->scan_absolute( g_modules->m_modules.client_dll.get_name( ), xorstr_( "E8 ? ? ? ? 48 8B D0 8B 4A ? F3 41 0F 10 46" ), 0x1 ) );
+	static auto fn_add_element_to_rep_field_container = reinterpret_cast<CSubtickMoveStep * ( __fastcall* )( google::protobuf::repeated_ptr_field_t<CSubtickMoveStep>*, void* )>( g_opcodes->scan_absolute( g_modules->m_modules.client_dll.get_name( ), xorstr_( "48 89 5C 24 ? 57 48 83 EC ? 48 8B D9 48 8B FA 48 8B 49 ? 48 85 C9 74 ? 8B 01" ), 0x4 ) );
 
 	auto subtick_move = fn_create_new_subtick_move_step( arena );
 

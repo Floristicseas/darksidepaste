@@ -1,6 +1,8 @@
-#include "directx.hpp"
+﻿#include "directx.hpp"
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
+
+constexpr float M_PI = 3.14159265358979323846f;
 
 IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
 
@@ -91,14 +93,73 @@ void c_directx::start_frame( IDXGISwapChain* swap_chain ) {
 	} );
 }
 
-void c_directx::new_frame( ) {
-	ImGuiIO io = ImGui::GetIO( );
+void c_directx::new_frame() {
+    ImGuiIO& io = ImGui::GetIO();
+    g_render->update_screen_size(io);
 
-	g_render->update_screen_size( io );
+    ImGui_ImplDX11_NewFrame();
+    ImGui_ImplWin32_NewFrame();
+    ImGui::NewFrame();
 
-	ImGui_ImplDX11_NewFrame( );
-	ImGui_ImplWin32_NewFrame( );
-	ImGui::NewFrame( );
+	//idk, why am i doing this, maybe,cuz it just looks beautiful
+    static bool show_loading = true;
+    static float progress = 0.0f;
+    static float displayed = 0.0f;
+    static bool menu = false;
+
+    if (show_loading) {
+        g_menu->m_opened = false;
+
+		//like 2 seconds 
+        progress += 0.015f;
+        if (progress >= 1.0f) {
+            progress = 1.0f;
+            show_loading = false; 
+        }
+
+        displayed += (progress - displayed) * 0.25f;
+
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0);
+        ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
+        ImGui::SetNextWindowSize(io.DisplaySize, ImGuiCond_Always);
+
+        ImGui::Begin("##loading_circle", nullptr,
+            ImGuiWindowFlags_NoTitleBar |
+            ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoMove |
+            ImGuiWindowFlags_NoScrollbar |
+            ImGuiWindowFlags_NoBackground |
+            ImGuiWindowFlags_NoInputs);
+
+        ImVec2 center(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f);
+        float radius = 60.0f;
+        ImDrawList* draw_list = ImGui::GetWindowDrawList();
+
+        draw_list->AddCircleFilled(center, radius + 8.0f, IM_COL32(255, 255, 255, 18), 64);
+
+        draw_list->AddCircle(center, radius, IM_COL32(200, 200, 200, 60), 64, 3.0f);
+
+        float start_angle = -M_PI * 0.5f;
+        float end_angle = start_angle + displayed * 2.0f * M_PI;
+        draw_list->PathArcTo(center, radius, start_angle, end_angle, 64);
+        draw_list->PathStroke(IM_COL32(0, 120, 255, 220), ImDrawFlags_None, 4.0f);
+
+        char buf[16];
+        sprintf_s(buf, "%.0f%%", displayed * 100.0f);
+        ImVec2 text_size = ImGui::CalcTextSize(buf);
+        draw_list->AddText(ImVec2(center.x - text_size.x * 0.5f, center.y - text_size.y * 0.5f),
+            IM_COL32(255, 255, 255, 230), buf);
+
+        ImGui::End();
+        ImGui::PopStyleVar(2);
+    }
+    else {
+        if (!menu) {
+            g_menu->m_opened = true;          
+            menu = true;  
+        }
+    }
 }
 
 void c_directx::end_frame( ) {

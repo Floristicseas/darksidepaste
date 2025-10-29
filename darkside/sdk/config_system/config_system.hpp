@@ -196,9 +196,20 @@ public:
 		
 		bool damageonenemy;
 		c_color damageclr{ 1.f, 1.f, 1.f };
-
+		
 		bool m_removals[7];
 	} misc;
+
+	struct indicators_t {
+		int keybindposx;
+		int keybindposy;
+
+		int watermarkposx;
+		int watermarkposy;
+
+		bool m_indicators[1];
+
+	} indicators;
 
 	struct skins_t {
 		struct

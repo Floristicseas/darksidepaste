@@ -5,7 +5,7 @@
 class c_menu {
 	int m_selected_tab{ };
 public:
-	bool m_opened;
+	bool m_opened = true;
 
 	void draw();
 	void on_create_move();

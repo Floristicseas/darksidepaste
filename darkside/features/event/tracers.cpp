@@ -3,7 +3,7 @@
 //pasted from priority src
 
 void c_particle_snapshot::draw(int count, void* data) {
-	vmt::call_virtual< void >(this, 1U, count, data);
+	vmt::call_virtual< void >(this, 2U, count, data);
 }
 
 void c_particle_manager::create_snapshot(c_strong_handle< c_particle_snapshot >* out_particle_snapshot)
@@ -13,7 +13,7 @@ void c_particle_manager::create_snapshot(c_strong_handle< c_particle_snapshot >*
 }
 
 void c_particle_manager::draw(c_strong_handle<c_particle_snapshot>* particle_snapshot, int count, void* data) {
-	vmt::call_virtual< void >(this, 43, particle_snapshot, count, data);
+	vmt::call_virtual< void >(this, 42, particle_snapshot, count, data);
 }
 
 void c_game_particle_manager_system::create_effect_index(unsigned int* effect_index, particle_effect* effect_data)

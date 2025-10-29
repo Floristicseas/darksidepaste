@@ -2,6 +2,8 @@
 #include "../darkside.hpp"
 #include "../features/skins/skins.hpp"
 #include "../features/event/logs/logs.hpp"
+#include "custom/keybinds.hpp"
+#include "custom/watermark.hpp"
 
 void c_menu::style_setup() {
     auto& style = ImGui::GetStyle();
@@ -41,6 +43,10 @@ void c_menu::draw() {
 
     g_event_logs->render();
 
+    g_keybinds_display->render();
+
+    g_watermark_display->render();
+
     if (!m_opened)
         return;
 
@@ -48,9 +54,28 @@ void c_menu::draw() {
 
     ImGui::SetNextWindowSize(ImVec2(512.0f, 515.0f), ImGuiCond_Once);
 
-    ImGui::Begin("cs2", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBackground);
+    ImGui::Begin("cs2", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar);
 
     draw_bg();
+
+    ImDrawList* draw = ImGui::GetWindowDrawList();
+    ImVec2 pos = ImGui::GetWindowPos();
+    ImVec2 size = ImGui::GetWindowSize();
+
+    draw->AddRectFilledMultiColor(
+        pos,
+        ImVec2(pos.x + size.x, pos.y + 26.f),
+        IM_COL32(0, 180, 255, 255),
+        IM_COL32(0, 180, 255, 255),
+        IM_COL32(0, 120, 255, 255),
+        IM_COL32(0, 120, 255, 255)
+    );
+
+    ImGui::SetCursorPosY(4.f);
+    ImGui::SetCursorPosX(10.f);
+    ImGui::TextColored(ImVec4(1.f, 1.f, 1.f, 1.f), "darkside sdk");
+
+    ImGui::SetCursorPosY(30.f);
 
     ImGui::BeginChild("tabs", ImVec2{ 150, 0 }, true);
     {
@@ -240,6 +265,7 @@ void c_menu::draw() {
         {
             const char* removal_items[] = { "Remove scope", "Remove legs", "Remove crosshair", "Remove flash", "Remove smoke", "Remove team intro", "Remove overhead", "Remove aim punch" };
             static const char* sounds[] = { ("flick"), ("bell"), ("mettalic"), ("bubble") };
+            static const char* indicators_items[] = { ("Keybinds"), ("Watermark") };
 
             ImGui::SliderInt(xorstr_("Field of View"), &g_cfg->misc.m_field_of_view, 1, 179);
             ImGui::MultiCombo("Removals", g_cfg->misc.m_removals, removal_items, IM_ARRAYSIZE(removal_items));
@@ -260,10 +286,11 @@ void c_menu::draw() {
             ImGui::Checkbox(xorstr_("Hit Sound"), &g_cfg->misc.m_hitsound);
 
             if (g_cfg->misc.m_hitsound)
-                ImGui::Combo(xorstr_("##hit_sound_mode"), &g_cfg->misc.m_hit_sound_mode, sounds, IM_ARRAYSIZE(sounds), sizeof(sounds));          
+                ImGui::Combo(xorstr_("##hit_sound_mode"), &g_cfg->misc.m_hit_sound_mode, sounds, IM_ARRAYSIZE(sounds), sizeof(sounds));                  
 
-            ImGui::Checkbox(xorstr_("Hit marker"), &g_cfg->misc.m_hitmark);
+            ImGui::Checkbox(xorstr_("tracers"), &g_cfg->world.m_bullet_tracer);
 
+            ImGui::MultiCombo("Indicators", g_cfg->indicators.m_indicators, indicators_items, IM_ARRAYSIZE(indicators_items));
         }
         ImGui::EndChild();
         ImGui::SameLine();

@@ -1,6 +1,7 @@
 #include "movement.hpp"
 #include "../eng_pred/eng_pred.hpp"
 #include "../../render/render.hpp"
+#include "../../menu/custom/keybinds.hpp"
 
 constexpr float M_PI = 3.14159265358979323846f;
 constexpr float M_PI_F = static_cast<float>(M_PI);
@@ -330,19 +331,24 @@ void c_movement::quick_peek_assistant(c_user_cmd* user_cmd)
 
 void c_movement::draw_autopeek()
 {
+	if (!g_key_handler->is_pressed(g_cfg->misc.m_override_quick_peek_assistant, g_cfg->misc.m_override_quick_peek_assistant_style))
+		g_keybinds_display->remove("Quick Peek");
+
 	if (!g_interfaces->m_engine->is_connected() || !g_interfaces->m_engine->is_in_game() || !g_ctx->m_local_pawn)
 		return;
 
 	vec3_t position = vec3_t();
 
 	if (!m_quick_peek_data.m_old_origin.is_zero())
-		position = m_quick_peek_data.m_old_origin;
+		position = m_quick_peek_data.m_old_origin;	
 
 	if (position.is_zero())
 		return;
 
 	if (g_key_handler->is_pressed(g_cfg->misc.m_override_quick_peek_assistant, g_cfg->misc.m_override_quick_peek_assistant_style))
 	{
+		g_keybinds_display->push("Quick Peek", g_cfg->misc.m_override_quick_peek_assistant_style);
+
 		vec3_t circle_pos = position;
 		circle_pos.z += 3.0f; 
 
@@ -357,7 +363,7 @@ void c_movement::draw_autopeek()
 
 		m_last_time = m_current_time;
 
-	}
+	}	
 }
 
 void c_movement::quick_stop(c_user_cmd* user_cmd, c_cs_player_pawn* local_pawn)

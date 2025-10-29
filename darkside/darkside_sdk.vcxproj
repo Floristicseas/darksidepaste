@@ -179,6 +179,8 @@
     <ClCompile Include="features\visuals\world.cpp" />
     <ClCompile Include="hooks\hooks.cpp" />
     <ClCompile Include="math\math.cpp" />
+    <ClCompile Include="menu\custom\keybinds.cpp" />
+    <ClCompile Include="menu\custom\watermark.cpp" />
     <ClCompile Include="menu\menu.cpp" />
     <ClCompile Include="render\render.cpp" />
     <ClCompile Include="sdk\config_system\config_system.cpp" />
@@ -233,6 +235,8 @@
     <ClInclude Include="features\visuals\world.hpp" />
     <ClInclude Include="hooks\hooks.hpp" />
     <ClInclude Include="math\math.hpp" />
+    <ClInclude Include="menu\custom\keybinds.hpp" />
+    <ClInclude Include="menu\custom\watermark.hpp" />
     <ClInclude Include="menu\menu.hpp" />
     <ClInclude Include="render\bytes.hpp" />
     <ClInclude Include="render\render.hpp" />
