@@ -193,33 +193,26 @@ void c_menu::draw() {
         {
             ImGui::Checkbox("Teammates", &g_cfg->visuals.m_player_esp.m_teammates);
             ImGui::Checkbox("Bounding box", &g_cfg->visuals.m_player_esp.m_bounding_box);
-            ImGui::SameLine();
-            ImGui::ColorEdit4("##box color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_bounding_box_col), ImGuiColorEditFlags_NoInputs);
+            ImGui::ColorEdit4("box color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_bounding_box_col), ImGuiColorEditFlags_NoInputs);
 
             ImGui::Checkbox("Skeleton", &g_cfg->visuals.m_player_esp.m_skeleton);
-            ImGui::SameLine();
-            ImGui::ColorEdit4("##skeleton color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_skeleton_color), ImGuiColorEditFlags_NoInputs);
+            ImGui::ColorEdit4("skeleton color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_skeleton_color), ImGuiColorEditFlags_NoInputs);
 
             ImGui::Checkbox("Off-screen arrows", &g_cfg->visuals.m_player_esp.m_off_arrow);
-            ImGui::SameLine();
-            ImGui::ColorEdit4("##arrow color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_off_arrow_color), ImGuiColorEditFlags_NoInputs);
+            ImGui::ColorEdit4("arrow color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_off_arrow_color), ImGuiColorEditFlags_NoInputs);
 
             ImGui::Checkbox("Health bar", &g_cfg->visuals.m_player_esp.m_health_bar);
             ImGui::Checkbox("Name", &g_cfg->visuals.m_player_esp.m_name);
-            ImGui::SameLine();
-            ImGui::ColorEdit4("##name color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_name_color), ImGuiColorEditFlags_NoInputs);
+            ImGui::ColorEdit4("name color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_name_color), ImGuiColorEditFlags_NoInputs);
             ImGui::Checkbox("Weapon text", &g_cfg->visuals.m_player_esp.m_weapon);
-            ImGui::SameLine();
-            ImGui::ColorEdit4("##weapon text color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_weapon_color), ImGuiColorEditFlags_NoInputs);
+            ImGui::ColorEdit4("weapon text color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_weapon_color), ImGuiColorEditFlags_NoInputs);
             ImGui::Checkbox("Weapon icon", &g_cfg->visuals.m_player_esp.m_weapon_icons);
-            ImGui::SameLine();
-            ImGui::ColorEdit4("##weapon icon color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_weapon_icon_col), ImGuiColorEditFlags_NoInputs);
+            ImGui::ColorEdit4("weapon icon color", reinterpret_cast<float*>(&g_cfg->visuals.m_player_esp.m_weapon_icon_col), ImGuiColorEditFlags_NoInputs);
 
             ImGui::Separator();
 
             ImGui::Checkbox("Local Glow", &g_cfg->visuals.glow.m_bGlow_local);
-            ImGui::SameLine();
-            ImGui::ColorEdit4("##glow local col0r", reinterpret_cast<float*>(&g_cfg->visuals.glow.glow_color_local), ImGuiColorEditFlags_NoInputs);
+            ImGui::ColorEdit4("glow local color", reinterpret_cast<float*>(&g_cfg->visuals.glow.glow_color_local), ImGuiColorEditFlags_NoInputs);
         }
         ImGui::EndChild();
     }
@@ -231,30 +224,25 @@ void c_menu::draw() {
 
             ImGui::Text("Enemy Chams");
             ImGui::Checkbox("Visible", &g_cfg->visuals.chams.m_enemy.m_visible);
-            ImGui::SameLine();
-            ImGui::ColorEdit4("##Enemy Visible Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_enemy.m_visible_color), ImGuiColorEditFlags_NoInputs);
+            ImGui::ColorEdit4("Enemy Visible Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_enemy.m_visible_color), ImGuiColorEditFlags_NoInputs);
             ImGui::Checkbox("Occluded", &g_cfg->visuals.chams.m_enemy.m_occluded);
-            ImGui::SameLine();
-            ImGui::ColorEdit4("##Enemy Occluded Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_enemy.m_occluded_color), ImGuiColorEditFlags_NoInputs);
+            ImGui::ColorEdit4("Enemy Occluded Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_enemy.m_occluded_color), ImGuiColorEditFlags_NoInputs);
             ImGui::Combo("Enemy Material", &g_cfg->visuals.chams.m_enemy.m_type, chamsMaterials, IM_ARRAYSIZE(chamsMaterials));
 
             ImGui::Separator();
 
             ImGui::Text("Local Chams");
             ImGui::Checkbox("Local Enabled", &g_cfg->visuals.chams.m_local.m_enabled);
-            ImGui::SameLine();
-            ImGui::ColorEdit4("##Local Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_local.m_color), ImGuiColorEditFlags_NoInputs);
+            ImGui::ColorEdit4("Local Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_local.m_color), ImGuiColorEditFlags_NoInputs);
             ImGui::Checkbox("Local Occluded", &g_cfg->visuals.chams.m_local.m_occluded);
-            ImGui::SameLine();
-            ImGui::ColorEdit4("##Local Occluded Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_local.m_occluded_color), ImGuiColorEditFlags_NoInputs);
+            ImGui::ColorEdit4("Local Occluded Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_local.m_occluded_color), ImGuiColorEditFlags_NoInputs);
             ImGui::Combo("Local Material", &g_cfg->visuals.chams.m_local.m_type, chamsMaterials, IM_ARRAYSIZE(chamsMaterials));
 
             ImGui::Separator();
 
             ImGui::Text("Weapon Chams");
             ImGui::Checkbox("Weapon Enabled", &g_cfg->visuals.chams.m_weapon.m_enabled);
-            ImGui::SameLine();
-            ImGui::ColorEdit4("##Weapon Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_weapon.m_color), ImGuiColorEditFlags_NoInputs);
+            ImGui::ColorEdit4("Weapon Color", reinterpret_cast<float*>(&g_cfg->visuals.chams.m_weapon.m_color), ImGuiColorEditFlags_NoInputs);
             ImGui::Combo("Weapon Material", &g_cfg->visuals.chams.m_weapon.m_type, chamsMaterials, IM_ARRAYSIZE(chamsMaterials));
         }
         ImGui::EndChild();

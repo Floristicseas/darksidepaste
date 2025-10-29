@@ -5,6 +5,16 @@
 #include "chams.hpp"
 #define IM_PI                           3.14159265358979323846f
 
+bool c_visuals::is_on_screen(vec3_t& origin, vec3_t& screen)
+{
+	if (!g_render->world_to_screen(origin, screen))
+		return false;
+
+	const auto& screen_size = g_render->m_screen_size;
+	return (screen.x >= 0 && screen.x <= screen_size.x &&
+		screen.y >= 0 && screen.y <= screen_size.y);
+}
+
 bbox_t c_visuals::calculate_bbox(c_cs_player_pawn* entity)
 {
 	if (!entity || !entity->is_player_pawn())
@@ -175,17 +185,34 @@ vec3_t c_visuals::calculate_arrow_pos(c_cs_player_pawn* local_player, c_cs_playe
 	vec3_t local_origin = local_player->m_scene_node()->m_abs_origin();
 	vec3_t enemy_origin = enemy_pawn->m_scene_node()->m_abs_origin();
 
-	auto dirnormal = (enemy_origin - local_origin).normalize();
+	vec3_t direction = (enemy_origin - local_origin).normalize();
 
-	vec3_t direction = dirnormal;
+	vec3_t view_angles = {
+		g_ctx->m_user_cmd->pb.mutable_base()->viewangles().x(),
+		g_ctx->m_user_cmd->pb.mutable_base()->viewangles().y(),
+		g_ctx->m_user_cmd->pb.mutable_base()->viewangles().z()
+	};
 
-	float screen_x = g_render->m_screen_center.x + (direction.y * g_render->m_screen_center.x);
-	float screen_y = g_render->m_screen_center.y - (direction.x * g_render->m_screen_center.y);
 
-	screen_x = std::clamp(screen_x, 30.0f, g_render->m_screen_size.x - 30.0f);
-	screen_y = std::clamp(screen_y, 30.0f, g_render->m_screen_size.y - 30.0f);
+	vec3_t delta = enemy_origin - local_origin;
+	float angle_to_enemy = atan2(delta.y, delta.x) * (180.0f / IM_PI);
 
-	return vec3_t{ screen_x, screen_y, 0 };
+	float yaw_diff = view_angles.y - angle_to_enemy - 90.0f;
+	float angle_rad = yaw_diff * (IM_PI / 180.0f);
+
+	const auto& screen_size = g_render->m_screen_size;
+	auto screen_center = g_render->m_screen_center;
+
+	float radius = 50.0f; 
+	float size = 10.0f;   
+
+	float adjusted_radius_x = ((screen_size.x - (size * 3)) * 0.5f) * (radius / 100.0f);
+	float adjusted_radius_y = ((screen_size.y - (size * 3)) * 0.5f) * (radius / 100.0f);
+
+	float new_point_x = screen_center.x + (adjusted_radius_x * cos(angle_rad)) + (int)(6.0f * (((float)size - 4.0f) / 16.0f));
+	float new_point_y = screen_center.y + (adjusted_radius_y * sin(angle_rad));
+
+	return vec3_t{ new_point_x, new_point_y, 0 };
 }
 
 float c_visuals::calculate_arrow_rotation(c_cs_player_pawn* local_player, c_cs_player_pawn* enemy_pawn)
@@ -196,26 +223,49 @@ float c_visuals::calculate_arrow_rotation(c_cs_player_pawn* local_player, c_cs_p
 	vec3_t local_origin = local_player->m_scene_node()->m_abs_origin();
 	vec3_t enemy_origin = enemy_pawn->m_scene_node()->m_abs_origin();
 
-	vec3_t delta = enemy_origin - local_origin;
-	float yaw = atan2(delta.y, delta.x) * (180.0f / IM_PI);
+	vec3_t view_angles = {
+		g_ctx->m_user_cmd->pb.mutable_base()->viewangles().x(),
+		g_ctx->m_user_cmd->pb.mutable_base()->viewangles().y(),
+		g_ctx->m_user_cmd->pb.mutable_base()->viewangles().z()
+	};
 
-	return yaw + 90.0f;
+
+	vec3_t delta = enemy_origin - local_origin;
+	float angle_to_enemy = atan2(delta.y, delta.x) * (180.0f / IM_PI);
+
+	return view_angles.y - angle_to_enemy - 90.0f;
+}
+
+void c_visuals::rotate_triangle(std::array<vec3_t, 3>& points, float rotation)
+{
+	float rad = rotation * (IM_PI / 180.0f);
+	vec3_t center = points[1]; 
+
+	for (auto& point : points)
+	{
+		float x = point.x - center.x;
+		float y = point.y - center.y;
+
+		point.x = x * cos(rad) - y * sin(rad) + center.x;
+		point.y = x * sin(rad) + y * cos(rad) + center.y;
+	}
 }
 
 void c_visuals::draw_fov_arrow(const vec3_t& pos, float rotation, const c_color& color)
 {
-	float arrow_size = 15.0f;
+	float size = 10.0f; 
 
-	float rad = rotation * (IM_PI / 180.0f);
+	std::array<vec3_t, 3> points = {
+		vec3_t{ pos.x - size, pos.y - size, 0 }, 
+		vec3_t{ pos.x + size, pos.y, 0 },        
+		vec3_t{ pos.x - size, pos.y + size, 0 }  
+	};
 
-	vec3_t points[3];
-	points[0] = vec3_t{ pos.x + arrow_size * cos(rad), pos.y + arrow_size * sin(rad), 0 };
-	points[1] = vec3_t{ pos.x + arrow_size * 0.5f * cos(rad + 2.5f), pos.y + arrow_size * 0.5f * sin(rad + 2.5f), 0 };
-	points[2] = vec3_t{ pos.x + arrow_size * 0.5f * cos(rad - 2.5f), pos.y + arrow_size * 0.5f * sin(rad - 2.5f), 0 };
+	rotate_triangle(points, rotation);
 
 	g_render->triangle_filled(points[0], points[1], points[2], color);
 
-	g_render->triangle(points[0], points[1], points[2], c_color(0, 0, 0, color.a), 1.0f);
+	g_render->triangle(points[0], points[1], points[2], c_color(0, 0, 0, color.a), 1.5f);
 }
 
 void c_visuals::draw_off_arrow(c_cs_player_pawn* local_player, c_cs_player_pawn* enemy_pawn)
@@ -226,10 +276,8 @@ void c_visuals::draw_off_arrow(c_cs_player_pawn* local_player, c_cs_player_pawn*
 	vec3_t enemy_screen_pos;
 	vec3_t enemy_origin = enemy_pawn->m_scene_node()->m_abs_origin();
 
-	if (g_render->world_to_screen(enemy_origin, enemy_screen_pos))
-	{
+	if (is_on_screen(enemy_origin, enemy_screen_pos))
 		return;
-	}
 
 	vec3_t arrow_pos = calculate_arrow_pos(local_player, enemy_pawn);
 	float arrow_rotation = calculate_arrow_rotation(local_player, enemy_pawn);
